@@ -52,6 +52,10 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+    testImplementation("io.kotest:kotest-framework-datatest:5.6.2")
 }
 
 tasks.withType<KotlinCompile> {
