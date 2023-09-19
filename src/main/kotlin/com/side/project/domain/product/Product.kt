@@ -1,15 +1,15 @@
 package com.side.project.domain.product
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.side.project.common.BaseEntity
+import com.side.project.common.payload.BaseEntity
+import com.side.project.domain.category.Category
+import com.side.project.domain.category.DetailCategory
+import com.side.project.domain.product.option.ProductGrpOpt
 import com.side.project.domain.store.Store
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
+import java.util.ArrayList
 
 @Entity
+@Table(name = "Product")
 class Product(
     @Column(nullable = false)
     var name: String,
@@ -21,8 +21,19 @@ class Product(
     var image_url: String?,
 
     @ManyToOne
-    @JoinColumn(name = "store_id")
-    var store: Store,
+    @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    var store: Store?,
+
+    @OneToMany(mappedBy = "product")
+    var grpOpt: MutableList<ProductGrpOpt> = ArrayList(),
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    var category: Category?,
+
+    @ManyToOne
+    @JoinColumn(name = "detailCategoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    var detailCategory: DetailCategory?,
 
     id: Long = 0L
 ): BaseEntity(id)
