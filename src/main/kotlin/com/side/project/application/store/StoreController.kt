@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class StoreController(
     private val storeService: StoreService
 ) {
-    @GetMapping("/store/all-info/{id}")
+    @GetMapping("/store/{id}/all-info")
     fun getStore(@PathVariable id: Long): StoreDto{
         return storeService.getById(id)
     }

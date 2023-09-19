@@ -1,13 +1,15 @@
 package com.side.project.domain.store
 
-import com.side.project.common.BaseEntity
+import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.product.Product
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
 import java.time.LocalDateTime
 
 @Entity
+@Table(name = "Store")
 class Store (
     @Column(nullable = false)
     var name: String,
