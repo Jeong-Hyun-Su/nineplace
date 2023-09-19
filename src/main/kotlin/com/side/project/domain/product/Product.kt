@@ -3,6 +3,7 @@ package com.side.project.domain.product
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.category.Category
 import com.side.project.domain.category.DetailCategory
+import com.side.project.domain.order.Order
 import com.side.project.domain.product.option.ProductGrpOpt
 import com.side.project.domain.store.Store
 import jakarta.persistence.*
@@ -20,6 +21,9 @@ class Product(
     @Column
     var image_url: String?,
 
+    @Column
+    var content: String,
+
     @ManyToOne
     @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var store: Store?,
@@ -34,6 +38,9 @@ class Product(
     @ManyToOne
     @JoinColumn(name = "detailCategoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var detailCategory: DetailCategory?,
+
+    @OneToMany(mappedBy = "product")
+    var order: MutableList<Order> = ArrayList(),
 
     id: Long = 0L
 ): BaseEntity(id)

@@ -10,7 +10,7 @@ class CategoryController(
     private val categoryService: CategoryService,
 ) {
     @GetMapping("/category/{id}")
-    fun getCategory(@PathVariable id: Long): CategoryDto {
+    fun categoryGet(@PathVariable id: Long): CategoryDto {
         return categoryService.getCategoryById(id)
     }
 }
