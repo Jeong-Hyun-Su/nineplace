@@ -15,16 +15,18 @@ class ProductOptionService(
 ){
     @Transactional
     fun saveGrpAndDetailOption(product: Product, grpOptDto: ProductGrpOptDto){
-        val grpOpt = ProductOptionMapper.INSTANCE.ofGrpEntity(grpOptDto).apply {
-                            this.product = product
-                            productGrpOptRepository.save(this)
-                     }
+        val grpOpt = grpOptDto.run(ProductOptionMapper.INSTANCE::ofGrpEntity)
+                              .apply {
+                                      this.product = product
+                                      productGrpOptRepository.save(this)
+                              }
 
         grpOptDto.detailOpt?.forEach {
-            ProductOptionMapper.INSTANCE.ofDetailEntity(it).apply {
-                this.grpOpt = grpOpt
-                productDetailOptRepository.save(this)
-            }
+            it.run(ProductOptionMapper.INSTANCE::ofDetailEntity)
+              .apply {
+                  this.grpOpt = grpOpt
+                  productDetailOptRepository.save(this)
+              }
         }
     }
 }

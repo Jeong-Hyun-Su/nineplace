@@ -1,7 +1,7 @@
 package com.side.project.application.product.dto
 
 data class ProductCreateDto (
-    var store_id: Long,
+    var storeId: Long,
 
     var name: String,
     var price: Long,
