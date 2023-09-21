@@ -10,8 +10,7 @@ class CategoryService (
     private val detailCategoryRepository: DetailCategoryRepository,
 ){
     fun getCategoryById(id: Long): CategoryDto{
-        val category = categoryRepository.getByIds(id)
-
-        return CategoryMapper.INSTANCE.toCategoryDto(category)
+        return categoryRepository.getByIds(id)
+                                 .let(CategoryMapper.INSTANCE::toCategoryDto)
     }
 }

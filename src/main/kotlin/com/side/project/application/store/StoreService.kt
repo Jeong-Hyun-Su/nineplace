@@ -12,14 +12,12 @@ class StoreService(
     val storeRepository: StoreRepository
 ){
     fun getById(id: Long): StoreDto{
-        val store = storeRepository.getByIds(id)
-
-        return StoreMapper.INSTANCE.toDto(store)
+        return storeRepository.getByIds(id)
+                              .let(StoreMapper.INSTANCE::toDto)
     }
 
     fun getNoProductById(id: Long): StoreNoProductDto{
-        val store = storeRepository.getByIds(id)
-
-        return StoreMapper.INSTANCE.toNotProductDto(store)
+        return storeRepository.getByIds(id)
+                              .let(StoreMapper.INSTANCE::toNotProductDto)
     }
 }

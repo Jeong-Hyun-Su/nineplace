@@ -4,6 +4,7 @@ data class ProductCreateDto (
     var storeId: Long,
 
     var name: String,
+    var content: String,
     var price: Long,
     var image_url: String?,
 

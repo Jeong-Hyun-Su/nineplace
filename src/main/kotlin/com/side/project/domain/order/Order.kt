@@ -44,4 +44,8 @@ class Order (
     //등록자
 
     id: Long = 0L
-): BaseEntity(id)
+): BaseEntity(id) {
+    fun increaseClientCount() {
+        clientCount += 1
+    }
+}

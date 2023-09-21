@@ -4,6 +4,7 @@ import com.side.project.application.product.dto.ProductCreateDto
 import com.side.project.application.product.dto.ProductDto
 import com.side.project.application.product.dto.ProductNoStoreDto
 import com.side.project.common.payload.ApiResponse
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/products")
 class ProductController(
-    val productService: ProductService
+    private val productService: ProductService
 ) {
     @GetMapping("/{id}/all-info")
     fun productAllInfo(@PathVariable id: Long): ApiResponse<ProductDto> {
@@ -33,5 +34,12 @@ class ProductController(
         productService.create(productCreateDto)
 
         return ApiResponse.ok(data = productCreateDto)
+    }
+
+    @DeleteMapping("/{id}")
+    fun productDelete(@PathVariable id: Long): ApiResponse<Nothing> {
+        productService.delete(id)
+
+        return ApiResponse.ok(message = "상품 삭제 완료")
     }
 }

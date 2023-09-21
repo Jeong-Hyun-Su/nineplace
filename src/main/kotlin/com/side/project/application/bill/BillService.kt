@@ -2,44 +2,42 @@ package com.side.project.application.bill
 
 import com.side.project.application.bill.dto.BillCreateDto
 import com.side.project.application.bill.dto.BillDto
-import com.side.project.application.order.OrderService
+import com.side.project.domain.bill.Bill
 import com.side.project.domain.bill.BillMapper
 import com.side.project.domain.bill.getByIds
 import com.side.project.domain.bill.BillRepository
 import com.side.project.domain.order.Order
 import com.side.project.domain.order.OrderRepository
 import com.side.project.domain.order.getByIds
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class BillService(
     private val billRepository: BillRepository,
-    private val orderRepository: OrderRepository,
-    private val orderService: OrderService
+    private val orderRepository: OrderRepository
 ) {
     fun getById(id: Long): BillDto {
         return billRepository.getByIds(id)
-                             .run(BillMapper.INSTANCE::toDto)
+                             .let(BillMapper.INSTANCE::toDto)
     }
 
     @Transactional
     fun create(billCreateDto: BillCreateDto) {
         val order = orderRepository.getByIds(billCreateDto.orderId)
-
-        // 주문 인원 체크
-        check(order.clientCount + 1 <= order.clientMax){"인원이 꽉 찼습니다."}
-        // 주문 인원 + 1
-        orderService.increaseClientCount(order)
+        // 주문 인원 체크 후 증가
+        check(order.clientCount + 1 <= order.clientMax){ "인원이 꽉 찼습니다." }
+        order.increaseClientCount()
         // Bill 생성
         createBill(billCreateDto, order)
     }
 
+    @Transactional
     fun createBill(billCreateDto: BillCreateDto, order: Order) {
-        billCreateDto.run(BillMapper.INSTANCE::ofCreateEntity)
-                     .apply {
-                         this.order = order
-                         billRepository.save(this)
-                     }
+        billRepository.save(
+            billCreateDto.let(BillMapper.INSTANCE::ofCreateEntity)
+                         .apply { this.order = order }
+        )
     }
 }

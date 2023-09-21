@@ -14,7 +14,7 @@ class ProductGrpOpt (
     @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var product: Product?,
 
-    @OneToMany(mappedBy="grpOpt")
+    @OneToMany(mappedBy="grpOpt", cascade = [ CascadeType.PERSIST, CascadeType.REMOVE ], orphanRemoval = true)
     var detailOpt: MutableList<ProductDetailOpt>? = ArrayList(),
 
     id: Long = 0L
