@@ -18,6 +18,7 @@ class BillController(
     @GetMapping("/{id}")
     fun billGet(@PathVariable id: Long): ApiResponse<BillDto> {
         val bill = billService.getById(id)
+
         return ApiResponse.ok(message = "Bill 조회 성공", data = bill)
     }
 

@@ -30,11 +30,6 @@ class BillService(
         check(order.clientCount + 1 <= order.clientMax){ "인원이 꽉 찼습니다." }
         order.increaseClientCount()
         // Bill 생성
-        createBill(billCreateDto, order)
-    }
-
-    @Transactional
-    fun createBill(billCreateDto: BillCreateDto, order: Order) {
         billRepository.save(
             billCreateDto.let(BillMapper.INSTANCE::ofCreateEntity)
                          .apply { this.order = order }

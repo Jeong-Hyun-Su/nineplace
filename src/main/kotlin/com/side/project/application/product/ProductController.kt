@@ -20,12 +20,14 @@ class ProductController(
     @GetMapping("/{id}/all-info")
     fun productAllInfo(@PathVariable id: Long): ApiResponse<ProductDto> {
         val product = productService.getById(id)
+
         return ApiResponse.ok(data = product)
     }
 
     @GetMapping("/{id}")
     fun productNoStore(@PathVariable id: Long): ApiResponse<ProductNoStoreDto> {
         val product = productService.getNoStoreById(id)
+
         return ApiResponse.ok(data = product)
     }
 
@@ -33,7 +35,7 @@ class ProductController(
     fun productCreate(@RequestBody productCreateDto: ProductCreateDto): ApiResponse<ProductCreateDto>{
         productService.create(productCreateDto)
 
-        return ApiResponse.ok(data = productCreateDto)
+        return ApiResponse.ok(message = "상품 생성 완료", data = productCreateDto)
     }
 
     @DeleteMapping("/{id}")
