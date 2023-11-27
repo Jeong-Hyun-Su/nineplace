@@ -9,10 +9,10 @@ import org.mapstruct.factory.Mappers
 @Mapper
 interface ProductOptionMapper {
     @InheritInverseConfiguration
-    fun ofGrpEntity(productGrpOptDto: ProductGrpOptDto): ProductGrpOpt
+    fun ofGrpOpt(productGrpOptDto: ProductGrpOptDto): ProductGrpOpt
 
     @InheritInverseConfiguration
-    fun ofDetailEntity(productDetailOptDto: ProductDetailOptDto): ProductDetailOpt
+    fun ofDetailOpt(productDetailOptDto: ProductDetailOptDto): ProductDetailOpt
 
     companion object {
         val INSTANCE = Mappers.getMapper(ProductOptionMapper::class.java)

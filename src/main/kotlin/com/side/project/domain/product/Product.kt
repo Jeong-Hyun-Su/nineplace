@@ -28,8 +28,8 @@ class Product(
     @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var store: Store?,
 
-    @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL])
-    var grpOpt: MutableList<ProductGrpOpt> = ArrayList(),
+    @OneToMany(mappedBy = "product", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
+    var grpOpt: MutableList<ProductGrpOpt>? = ArrayList(),
 
     @ManyToOne
     @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))

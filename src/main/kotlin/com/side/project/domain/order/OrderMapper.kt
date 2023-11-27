@@ -13,7 +13,7 @@ interface OrderMapper {
     fun toDto(order: Order): OrderDto
 
     @InheritInverseConfiguration
-    fun ofCreateEntity(orderCreateDto: OrderCreateDto): Order
+    fun ofOrder(orderCreateDto: OrderCreateDto): Order
 
     companion object {
         val INSTANCE = Mappers.getMapper(OrderMapper::class.java)

@@ -41,14 +41,14 @@ class ProductService(
 
         // 상품(Product) Entity
         productRepository.save(
-            productCreateDto.let(ProductMapper.INSTANCE::ofCreateEntity)
+            productCreateDto.let(ProductMapper.INSTANCE::ofProduct)
                             .apply {
                                 this.store = store
                                 this.category = category
                                 this.detailCategory = detailCategory
 
                                 // 연관관계 설정( 그룹, 상세옵션 )
-                                this.grpOpt.forEach {
+                                this.grpOpt?.forEach {
                                     it.detailOpt?.forEach { detailOpt -> detailOpt.grpOpt = it }
                                     it.product = this
                                 }
