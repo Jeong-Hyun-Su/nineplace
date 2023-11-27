@@ -2,6 +2,7 @@ package com.side.project.domain.category
 
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.product.Product
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.OneToMany
@@ -14,10 +15,10 @@ class Category (
     var name: String,
 
     @OneToMany(mappedBy = "category")
-    var product: MutableList<Product?> = ArrayList(),
+    var product: MutableList<Product>? = ArrayList(),
 
-    @OneToMany(mappedBy = "category")
-    var detailCategory: MutableList<DetailCategory?> = ArrayList(),
+    @OneToMany(mappedBy = "category", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
+    var detailCategory: MutableList<DetailCategory>? = ArrayList(),
 
     id: Long = 0L
 ): BaseEntity(id)

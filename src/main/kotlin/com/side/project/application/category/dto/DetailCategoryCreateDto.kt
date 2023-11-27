@@ -1,6 +1,6 @@
 package com.side.project.application.category.dto
 
-data class DetailCategoryDto (
-    var id: Long,
+data class DetailCategoryCreateDto (
     var name: String,
+    val categoryId: Long,
 )
