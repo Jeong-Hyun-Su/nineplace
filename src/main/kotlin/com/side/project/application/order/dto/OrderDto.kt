@@ -1,6 +1,7 @@
 package com.side.project.application.order.dto
 
 import com.side.project.application.product.dto.ProductNoStoreDto
+import com.side.project.common.code.OrderStatus
 import java.time.LocalDateTime
 
 data class OrderDto (
@@ -11,6 +12,6 @@ data class OrderDto (
     var clientMax: Long,
     var clientCount: Long,
     var viewCount: Long,
-    var status: Boolean,
+    var status: OrderStatus?,
     var product: ProductNoStoreDto,
 )

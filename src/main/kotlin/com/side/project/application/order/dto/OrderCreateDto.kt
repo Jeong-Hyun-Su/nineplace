@@ -17,5 +17,4 @@ data class OrderCreateDto (
     val endTime: LocalDateTime,
 
     val clientMax: Long,
-    val status: Boolean,
 )

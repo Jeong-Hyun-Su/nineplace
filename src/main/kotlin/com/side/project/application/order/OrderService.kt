@@ -2,6 +2,7 @@ package com.side.project.application.order
 
 import com.side.project.application.order.dto.OrderCreateDto
 import com.side.project.application.order.dto.OrderDto
+import com.side.project.common.code.OrderStatus
 import com.side.project.domain.order.OrderMapper
 import com.side.project.domain.order.OrderRepository
 import com.side.project.domain.order.getByIds
@@ -33,6 +34,7 @@ class OrderService (
                               this.viewCount = 0
                               this.clientCount = 0
                               this.product = product
+                              this.status = OrderStatus.CLOSED
                           }
         )
     }

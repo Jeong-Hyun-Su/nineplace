@@ -1,5 +1,7 @@
 package com.side.project.domain.order
 
+import com.side.project.common.code.OrderStatus
+import com.side.project.common.code.OrderStatusConverter
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.bill.Bill
 import com.side.project.domain.product.Product
@@ -32,7 +34,8 @@ class Order (
     var viewCount: Long,
 
     @Column(nullable = false)
-    var status: Boolean,
+    @Convert(converter = OrderStatusConverter::class)
+    var status: OrderStatus,
 
     @ManyToOne
     @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))

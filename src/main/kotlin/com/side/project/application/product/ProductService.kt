@@ -3,6 +3,7 @@ package com.side.project.application.product
 import com.side.project.application.product.dto.ProductCreateDto
 import com.side.project.application.product.dto.ProductDto
 import com.side.project.application.product.dto.ProductNoStoreDto
+import com.side.project.common.code.ProductStatus
 import com.side.project.domain.category.CategoryRepository
 import com.side.project.domain.category.DetailCategoryRepository
 import com.side.project.domain.category.getByIds
@@ -46,6 +47,7 @@ class ProductService(
                                 this.store = store
                                 this.category = category
                                 this.detailCategory = detailCategory
+                                this.status = ProductStatus.OPENED
 
                                 // 연관관계 설정( 그룹, 상세옵션 )
                                 this.grpOpt?.forEach {

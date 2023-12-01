@@ -1,5 +1,7 @@
 package com.side.project.domain.product
 
+import com.side.project.common.code.ProductStatus
+import com.side.project.common.code.ProductStatusConverter
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.category.Category
 import com.side.project.domain.category.DetailCategory
@@ -23,6 +25,10 @@ class Product(
 
     @Column
     var content: String,
+
+    @Column
+    @Convert(converter = ProductStatusConverter::class)
+    var status: ProductStatus,
 
     @ManyToOne
     @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
