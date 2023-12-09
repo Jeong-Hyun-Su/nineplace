@@ -41,10 +41,10 @@ class DiscountService(
             val discountDto: DiscountDto = discountStrategy?.calculator() ?: throw Exception()
 
             // 섹션 할인
-            if( discountStrategy is ClientSectionDiscountStrategy &&
-                order.clientCount <= discount.clientSection )
-            {
-                clientSectionPercent = max(discountDto.clientSection, clientSectionPercent)
+            if( discountStrategy is ClientSectionDiscountStrategy ) {
+                // 주문건 고객수 >= 섹션구간 고객수
+                if( order.clientCount >= discount.clientSection )
+                    clientSectionPercent = max(discountDto.percent, clientSectionPercent)
             } else {
                 percent += discountDto.percent
             }
