@@ -1,12 +1,12 @@
 package com.side.project.domain.order
 
-import com.side.project.common.code.OrderStatus
-import com.side.project.common.code.OrderStatusConverter
+import com.side.project.common.code.status.OrderStatus
+import com.side.project.common.code.status.OrderStatusConverter
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.bill.Bill
+import com.side.project.domain.discount.Discount
 import com.side.project.domain.product.Product
 import jakarta.persistence.*
-import org.hibernate.annotations.ColumnDefault
 import java.time.LocalDateTime
 
 @Entity
@@ -19,13 +19,19 @@ class Order (
     var content: String,
 
     @Column
+    var price: Long,
+
+    @Column
+    var discountLimit: Long,
+
+    @Column
     var startTime: LocalDateTime,
 
     @Column
     var endTime: LocalDateTime,
 
     @Column
-    var clientMax: Long,
+    var clientLimit: Long,
 
     @Column
     var clientCount: Long,
@@ -41,6 +47,10 @@ class Order (
     @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var product: Product,
 
+    //Section 할인율 정보
+    @OneToMany(mappedBy = "order")
+    var discount: MutableList<Discount> = ArrayList(),
+
     @OneToMany(mappedBy = "order")
     var bill: MutableList<Bill> = ArrayList(),
 
@@ -51,4 +61,9 @@ class Order (
     fun increaseClientCount() {
         clientCount += 1
     }
+
+    override fun toString(): String {
+        return "Order(title='$title', content='$content', price=$price, discountLimit=$discountLimit, startTime=$startTime, endTime=$endTime, clientLimit=$clientLimit, clientCount=$clientCount, viewCount=$viewCount, status=$status, product=$product, discount=$discount, bill=$bill)"
+    }
+
 }

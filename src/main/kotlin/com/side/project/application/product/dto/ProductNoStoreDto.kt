@@ -1,6 +1,6 @@
 package com.side.project.application.product.dto
 
-import com.side.project.common.code.ProductStatus
+import com.side.project.common.code.status.ProductStatus
 
 data class ProductNoStoreDto(
     var name: String?,

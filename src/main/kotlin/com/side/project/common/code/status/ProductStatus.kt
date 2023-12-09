@@ -1,4 +1,4 @@
-package com.side.project.common.code
+package com.side.project.common.code.status
 
 import com.fasterxml.jackson.annotation.JsonValue
 import lombok.AllArgsConstructor

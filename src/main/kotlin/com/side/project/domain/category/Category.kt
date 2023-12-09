@@ -21,4 +21,4 @@ class Category (
     var detailCategory: MutableList<DetailCategory>? = ArrayList(),
 
     id: Long = 0L
-): BaseEntity(id)
+): BaseEntity()

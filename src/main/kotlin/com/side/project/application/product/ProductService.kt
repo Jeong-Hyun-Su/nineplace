@@ -3,7 +3,7 @@ package com.side.project.application.product
 import com.side.project.application.product.dto.ProductCreateDto
 import com.side.project.application.product.dto.ProductDto
 import com.side.project.application.product.dto.ProductNoStoreDto
-import com.side.project.common.code.ProductStatus
+import com.side.project.common.code.status.ProductStatus
 import com.side.project.domain.category.CategoryRepository
 import com.side.project.domain.category.DetailCategoryRepository
 import com.side.project.domain.category.getByIds

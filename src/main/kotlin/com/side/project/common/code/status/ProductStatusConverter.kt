@@ -1,5 +1,6 @@
-package com.side.project.common.code
+package com.side.project.common.code.status
 
+import com.side.project.common.code.findBy
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter
 

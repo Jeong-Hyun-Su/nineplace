@@ -1,7 +1,7 @@
 package com.side.project.application.order.dto
 
 import com.side.project.application.product.dto.ProductNoStoreDto
-import com.side.project.common.code.OrderStatus
+import com.side.project.common.code.status.OrderStatus
 import java.time.LocalDateTime
 
 data class OrderDto (

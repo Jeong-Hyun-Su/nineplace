@@ -19,6 +19,9 @@ class Bill (
     var detailOpt: String,
 
     // 구매자
+    //@ManyToOne
+    //@JoinColumn(name = "orderId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    //var user: User,
 
     @ManyToOne
     @JoinColumn(name = "orderId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))

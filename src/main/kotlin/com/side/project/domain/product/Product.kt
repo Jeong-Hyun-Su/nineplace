@@ -1,7 +1,7 @@
 package com.side.project.domain.product
 
-import com.side.project.common.code.ProductStatus
-import com.side.project.common.code.ProductStatusConverter
+import com.side.project.common.code.status.ProductStatus
+import com.side.project.common.code.status.ProductStatusConverter
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.category.Category
 import com.side.project.domain.category.DetailCategory
