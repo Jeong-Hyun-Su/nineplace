@@ -13,7 +13,7 @@ interface BillMapper {
     fun toDto(bill: Bill): BillDto
 
     @InheritInverseConfiguration
-    fun ofCreateEntity(billCreateDto: BillCreateDto): Bill
+    fun ofBill(billCreateDto: BillCreateDto): Bill
 
     companion object {
         val INSTANCE = Mappers.getMapper(BillMapper::class.java)

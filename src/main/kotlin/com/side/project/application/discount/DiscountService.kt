@@ -2,6 +2,7 @@ package com.side.project.application.discount
 
 import com.side.project.application.discount.dto.DiscountCalcDto
 import com.side.project.application.discount.dto.DiscountDto
+import com.side.project.common.code.discount.DiscountType
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.discount.DiscountMapper
 import com.side.project.domain.discount.DiscountRepository
@@ -41,7 +42,7 @@ class DiscountService(
             val discountDto: DiscountDto = discountStrategy?.calculator() ?: throw Exception()
 
             // 섹션 할인
-            if( discountStrategy is ClientSectionDiscountStrategy ) {
+            if( discount.type == DiscountType.SECTION ) {
                 // 주문건 고객수 >= 섹션구간 고객수
                 if( order.clientCount >= discount.clientSection )
                     clientSectionPercent = max(discountDto.percent, clientSectionPercent)
