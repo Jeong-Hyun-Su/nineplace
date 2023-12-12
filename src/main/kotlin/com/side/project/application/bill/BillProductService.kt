@@ -1,6 +1,5 @@
 package com.side.project.application.bill
 
-import com.side.project.application.bill.dto.BillCreateDto
 import com.side.project.application.bill.dto.BillProductCreateDto
 import com.side.project.domain.bill.Bill
 import com.side.project.domain.bill.BillProduct
@@ -34,7 +33,7 @@ class BillProductService(
         )
     }
 
-    // 주문상품 리스트 생성정및 최종가격 책
+    // 주문상품 리스트 생성 및 모든 상품 가격 합
     fun createListAndReturnTotalPrice(billProductList: List<BillProductCreateDto>?, bill: Bill): Long{
         var price = 0L
 

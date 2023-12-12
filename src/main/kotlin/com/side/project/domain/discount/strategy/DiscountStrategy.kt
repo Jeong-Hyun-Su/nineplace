@@ -1,7 +1,7 @@
 package com.side.project.domain.discount.strategy
 
-import com.side.project.application.discount.dto.DiscountDto
+import com.side.project.domain.order.Order
 
 interface DiscountStrategy {
-    fun calculator(): DiscountDto
+    fun calculator(order: Order): Long
 }

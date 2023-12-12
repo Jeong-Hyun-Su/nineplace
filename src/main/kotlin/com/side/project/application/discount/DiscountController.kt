@@ -15,7 +15,7 @@ class DiscountController(
     @GetMapping("/{id}")
     fun discountGet(@PathVariable id: Long): ApiResponse<DiscountDto> {
         val discount = discountService.getById(id)
-        discountService.calculator(4L)
+
         return ApiResponse.ok(message = "할인정보 조회 완료", data =  discount)
     }
 }

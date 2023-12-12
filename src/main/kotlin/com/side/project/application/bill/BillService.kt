@@ -2,6 +2,7 @@ package com.side.project.application.bill
 
 import com.side.project.application.bill.dto.BillCreateDto
 import com.side.project.application.bill.dto.BillDto
+import com.side.project.application.discount.DiscountService
 import com.side.project.domain.bill.Bill
 import com.side.project.domain.bill.BillMapper
 import com.side.project.domain.bill.getByIds
@@ -17,6 +18,7 @@ class BillService(
     private val billRepository: BillRepository,
     private val orderRepository: OrderRepository,
     private val billProductService: BillProductService,
+    private val discountService: DiscountService,
 ) {
     fun getById(id: Long): BillDto {
         return billRepository.getByIds(id)
@@ -30,10 +32,14 @@ class BillService(
         // 주문 인원 체크 후 증가
         check( order.clientCount + 1 <= order.clientLimit ){ "인원이 꽉 찼습니다." }
         order.increaseClientCount()
+
         // Bill 생성
         val bill: Bill = billRepository.save(Bill(title = billCreateDto.title, price = 0, order = order))
-        // 주문한 상품(BillProduct) 저장 및 최종가격 책정
-        val price = billProductService.createListAndReturnTotalPrice(billCreateDto.billProduct, bill)
+        // 주문한 상품(BillProduct) 저장 및 가격 책정
+        var price = billProductService.createListAndReturnTotalPrice(billCreateDto.billProduct, bill)
+        // 할인 적용
+        price = discountService.calculator(order, price, billCreateDto.discountList)
+
         // Bill 최종가격 책정
         bill.price = price
     }

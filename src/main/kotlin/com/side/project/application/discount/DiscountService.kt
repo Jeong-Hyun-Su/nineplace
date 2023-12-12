@@ -1,62 +1,46 @@
 package com.side.project.application.discount
 
-import com.side.project.application.discount.dto.DiscountCalcDto
 import com.side.project.application.discount.dto.DiscountDto
 import com.side.project.common.code.discount.DiscountType
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.discount.DiscountMapper
 import com.side.project.domain.discount.DiscountRepository
 import com.side.project.domain.discount.getByIds
-import com.side.project.domain.discount.strategy.ClientSectionDiscountStrategy
 import com.side.project.domain.discount.strategy.DiscountFactory
-import com.side.project.domain.discount.strategy.DiscountStrategy
-import com.side.project.domain.order.OrderRepository
-import com.side.project.domain.order.getByIds
+import com.side.project.domain.order.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import kotlin.math.max
 import kotlin.math.min
 
 @Service
 @Transactional(readOnly = true)
 class DiscountService(
     private val discountRepository: DiscountRepository,
-    private val orderRepository: OrderRepository,
 ) {
     fun getById(id: Long): DiscountDto {
         return discountRepository.getByIds(id)
                                  .let(DiscountMapper.INSTANCE::toDto)
     }
 
-    fun calculator(orderId: Long): DiscountCalcDto {
+    fun calculator(order: Order, price: Long, discountIdList: List<Long>?): Long {
         // Select Discount List - 쿠폰 제외, 시작기간~종료기간, 활성화
-        val order = orderRepository.getByIds(orderId)
-
-        val discountList: List<Discount> = order.discount
-        var clientSectionPercent = 0L
+        val orderDiscount: List<Discount> = order.discount
         var percent = 0L
 
-        // 할인정보 계산
-        for(discount in discountList) {
-            val discountStrategy: DiscountStrategy? = DiscountFactory.create(discount)
-            val discountDto: DiscountDto = discountStrategy?.calculator() ?: throw Exception()
+        // 상품에 적용되어 있는 할인전략들 적용
+        val discountStrategyList = DiscountFactory.createList(orderDiscount)
+        discountStrategyList.forEach { percent += it?.calculator(order) ?: throw Exception("상품 할인 오류") }
 
-            // 섹션 할인
-            if( discount.type == DiscountType.SECTION ) {
-                // 주문건 고객수 >= 섹션구간 고객수
-                if( order.clientCount >= discount.clientSection )
-                    clientSectionPercent = max(discountDto.percent, clientSectionPercent)
-            } else {
-                percent += discountDto.percent
-            }
+        //그 외 상품에 적용되지 않은 활성화된 할인방법(쿠폰 등) 적용(전달받은 항목)
+        if( discountIdList != null ) {
+            val discountList: List<Discount> = discountRepository.findDiscountsByIds(discountIdList)
+            discountList.filter { it.type != DiscountType.SECTION }.forEach { percent += it.percent }
         }
-        // 제품의 최대할인이 넘지 않도록 조정
-        percent = min(order.discountLimit, percent + clientSectionPercent)
-        // 할인가격 계산
-        val price: Long = (order.price - (order.price * 0.01 * percent)).toLong()
 
-        return DiscountCalcDto(discountList = discountList.map(DiscountMapper.INSTANCE::toDto).toList(),
-                               percent = percent,
-                               price = price)
+        // 제품의 최대할인이 넘지 않도록 조정
+        percent = min(order.discountLimit, percent)
+
+        // 할인가격 계산
+        return (price - (price * 0.01 * percent)).toLong()
     }
 }
