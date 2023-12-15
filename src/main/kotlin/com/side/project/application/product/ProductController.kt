@@ -43,6 +43,7 @@ class ProductController(
     @PatchMapping("/{id}")
     fun productUpdate(@PathVariable id: Long, @RequestBody productUpdateRequest: ProductUpdateRequest): ApiResponse<Nothing> {
         productService.update(id, productUpdateRequest)
+
         return ApiResponse.ok(message = "상품 업데이트 완료")
     }
 

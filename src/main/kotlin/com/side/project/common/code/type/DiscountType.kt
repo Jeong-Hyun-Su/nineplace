@@ -1,4 +1,4 @@
-package com.side.project.common.code.discount
+package com.side.project.common.code.type
 
 import com.fasterxml.jackson.annotation.JsonValue
 import lombok.AllArgsConstructor

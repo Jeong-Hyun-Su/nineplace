@@ -1,5 +1,6 @@
 package com.side.project.domain.order
 
+import com.side.project.application.order.dto.OrderUpdateRequest
 import com.side.project.common.code.status.OrderStatus
 import com.side.project.common.code.status.OrderStatusConverter
 import com.side.project.common.payload.BaseEntity
@@ -60,6 +61,14 @@ class Order (
 ): BaseEntity(id) {
     fun increaseClientCount() {
         this.clientCount += 1
+    }
+
+    fun update(order: OrderUpdateRequest) {
+        this.title = order.title
+        this.startTime = order.startTime
+        this.endTime = order.endTime
+        this.clientLimit = order.clientLimit
+        this.status = order.status
     }
 
     fun delete() {

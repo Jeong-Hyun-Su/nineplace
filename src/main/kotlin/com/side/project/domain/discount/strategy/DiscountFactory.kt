@@ -1,6 +1,7 @@
 package com.side.project.domain.discount.strategy
 
-import com.side.project.common.code.discount.DiscountType
+import com.side.project.common.code.status.DiscountStatus
+import com.side.project.common.code.type.DiscountType
 import com.side.project.domain.discount.Discount
 
 class DiscountFactory {
@@ -16,8 +17,8 @@ class DiscountFactory {
         }
         // 할인전략 리스트 생성(최종 섹션할인, 그 외)
         fun createList(discountList: List<Discount>): List<DiscountStrategy?> {
-            val discountsNotSection: List<Discount> = discountList.filter { it.type != DiscountType.SECTION && it.status }
-            val maxSection: Discount = discountList.filter { it.type == DiscountType.SECTION && it.status }
+            val discountsNotSection: List<Discount> = discountList.filter { it.type != DiscountType.SECTION && it.status == DiscountStatus.ACTIVATE }
+            val maxSection: Discount = discountList.filter { it.type == DiscountType.SECTION && it.status == DiscountStatus.ACTIVATE }
                                                    .maxBy { it.percent }
 
             return (discountsNotSection + maxSection).map{ discount -> create(discount)}

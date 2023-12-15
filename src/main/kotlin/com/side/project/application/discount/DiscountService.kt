@@ -1,7 +1,7 @@
 package com.side.project.application.discount
 
 import com.side.project.application.discount.dto.DiscountDto
-import com.side.project.common.code.discount.DiscountType
+import com.side.project.common.code.type.DiscountType
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.discount.DiscountMapper
 import com.side.project.domain.discount.DiscountRepository
