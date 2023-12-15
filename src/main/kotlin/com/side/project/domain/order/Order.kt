@@ -59,11 +59,14 @@ class Order (
     id: Long = 0L
 ): BaseEntity(id) {
     fun increaseClientCount() {
-        clientCount += 1
+        this.clientCount += 1
+    }
+
+    fun delete() {
+        this.status = OrderStatus.REMOVE
     }
 
     override fun toString(): String {
         return "Order(title='$title', content='$content', price=$price, discountLimit=$discountLimit, startTime=$startTime, endTime=$endTime, clientLimit=$clientLimit, clientCount=$clientCount, viewCount=$viewCount, status=$status, product=$product, discount=$discount, bill=$bill)"
     }
-
 }

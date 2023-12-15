@@ -11,6 +11,6 @@ fun DiscountRepository.getByIds(id: Long): Discount = findByIdOrNull(id)
 @Repository
 interface DiscountRepository: JpaRepository<Discount, Long> {
     // 할인정보 ID 목록으로, 할인정보 리스트 조회
-    @Query("select d from Discount d where d.id in :ids and d.status is true")
+    @Query("select d from Discount d where d.id in :ids and d.status is true", nativeQuery = true)
     fun findDiscountsByIds(ids: List<Long>): List<Discount>
 }

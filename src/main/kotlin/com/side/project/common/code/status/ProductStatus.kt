@@ -7,6 +7,6 @@ import lombok.Getter
 @AllArgsConstructor
 @Getter
 enum class ProductStatus(@get:JsonValue val type: String){
-        OPENED("상품등록"),
-        REMOVE("상품종료")
+        OPENED("등록"),
+        REMOVE("삭제")
 }

@@ -1,11 +1,13 @@
 package com.side.project.application.product
 
-import com.side.project.application.product.dto.ProductCreateDto
+import com.side.project.application.product.dto.ProductRequest
 import com.side.project.application.product.dto.ProductDto
 import com.side.project.application.product.dto.ProductNoStoreDto
+import com.side.project.application.product.dto.ProductUpdateRequest
 import com.side.project.common.payload.ApiResponse
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -32,10 +34,16 @@ class ProductController(
     }
 
     @PostMapping
-    fun productCreate(@RequestBody productCreateDto: ProductCreateDto): ApiResponse<ProductCreateDto>{
-        productService.create(productCreateDto)
+    fun productCreate(@RequestBody productRequest: ProductRequest): ApiResponse<ProductRequest>{
+        productService.create(productRequest)
 
-        return ApiResponse.ok(message = "상품 생성 완료", data = productCreateDto)
+        return ApiResponse.ok(message = "상품 생성 완료", data = productRequest)
+    }
+
+    @PatchMapping("/{id}")
+    fun productUpdate(@PathVariable id: Long, @RequestBody productUpdateRequest: ProductUpdateRequest): ApiResponse<Nothing> {
+        productService.update(id, productUpdateRequest)
+        return ApiResponse.ok(message = "상품 업데이트 완료")
     }
 
     @DeleteMapping("/{id}")

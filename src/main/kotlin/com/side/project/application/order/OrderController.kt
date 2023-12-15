@@ -1,6 +1,6 @@
 package com.side.project.application.order
 
-import com.side.project.application.order.dto.OrderCreateDto
+import com.side.project.application.order.dto.OrderRequest
 import com.side.project.application.order.dto.OrderDto
 import com.side.project.common.payload.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,8 +23,8 @@ class OrderController(
     }
 
     @PostMapping
-    fun orderCreate(@RequestBody orderCreateDto: OrderCreateDto): ApiResponse<Nothing> {
-        orderService.create(orderCreateDto)
+    fun orderCreate(@RequestBody orderRequest: OrderRequest): ApiResponse<Nothing> {
+        orderService.create(orderRequest)
 
         return ApiResponse.created(message = "주문 생성 완료")
     }

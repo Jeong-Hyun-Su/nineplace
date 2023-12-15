@@ -33,10 +33,10 @@ class Discount (
     @Column(nullable = false)
     var duplicateAmount: Long,
 
-    @Column(nullable = false)
+    @Column
     var startDate: LocalDateTime?,
 
-    @Column(nullable = false)
+    @Column
     var endDate: LocalDateTime?,
 
     @Column(nullable = false)

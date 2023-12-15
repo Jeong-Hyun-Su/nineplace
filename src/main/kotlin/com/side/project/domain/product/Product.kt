@@ -1,5 +1,7 @@
 package com.side.project.domain.product
 
+import com.side.project.application.product.dto.ProductDto
+import com.side.project.application.product.dto.ProductUpdateRequest
 import com.side.project.common.code.status.ProductStatus
 import com.side.project.common.code.status.ProductStatusConverter
 import com.side.project.common.payload.BaseEntity
@@ -46,7 +48,19 @@ class Product(
     var detailCategory: DetailCategory?,
 
     @OneToMany(mappedBy = "product")
-    var order: MutableList<Order>? = ArrayList(),
+    val order: MutableList<Order> = ArrayList(),
 
     id: Long = 0L
-): BaseEntity(id)
+): BaseEntity(id) {
+    fun update(productUpdateRequest: ProductUpdateRequest) {
+        this.name = productUpdateRequest.name
+        this.price = productUpdateRequest.price
+        this.image_url = productUpdateRequest.image_url
+        this.content = productUpdateRequest.content
+        this.status = productUpdateRequest.status
+    }
+
+    fun delete() {
+        this.status = ProductStatus.REMOVE
+    }
+}

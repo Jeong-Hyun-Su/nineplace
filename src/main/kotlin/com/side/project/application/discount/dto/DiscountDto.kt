@@ -14,3 +14,11 @@ data class DiscountDto (
     var status: Boolean,
     var order: OrderDto?,
 )
+
+data class DiscountInProductRequest (
+    var name: String,
+    var type: DiscountType,
+    var percent: Long,
+    var clientSection: Long,
+    var status: Boolean,
+)
