@@ -11,6 +11,7 @@ interface OrderMapper {
     fun toDto(order: Order): OrderDto
 
     @InheritInverseConfiguration
+    @Mappings
     fun ofOrder(orderRequest: OrderRequest): Order
 
     companion object {

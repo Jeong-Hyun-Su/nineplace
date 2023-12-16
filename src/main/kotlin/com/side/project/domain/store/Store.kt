@@ -1,8 +1,12 @@
 package com.side.project.domain.store
 
+import com.side.project.common.code.status.StoreStatus
+import com.side.project.common.code.status.StoreStatusConverter
 import com.side.project.common.payload.BaseEntity
+import com.side.project.domain.order.Order
 import com.side.project.domain.product.Product
 import jakarta.persistence.Column
+import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
@@ -15,28 +19,33 @@ class Store (
     var name: String,
 
     @Column
-    var intro_comment: String?,
+    var introComment: String?,
 
     @Column
-    var image_url: String?,
+    var imageUrl: String?,
 
     @Column
     var address: String?,
 
     @Column
-    var phone_number: String?,
+    var phoneNumber: String?,
 
     @Column
-    var business_number: String?,
+    var businessNumber: String?,
 
     @Column
-    var open_date: LocalDateTime?,
+    var openDate: LocalDateTime?,
 
     @Column(nullable = false)
-    var certificated_yn: Boolean,
+    var certificated: Boolean,
+
+    @Convert(converter = StoreStatusConverter::class)
+    @Column
+    var status: StoreStatus,
 
     @OneToMany(mappedBy = "store")
     var product: MutableList<Product> = ArrayList(),
 
-    id: Long = 0L
-): BaseEntity(id)
+    @OneToMany(mappedBy = "store")
+    var order: MutableList<Order> = ArrayList()
+): BaseEntity()

@@ -1,0 +1,46 @@
+package com.side.project.domain.store
+
+import com.side.project.common.code.status.StoreStatus
+import com.side.project.common.code.status.StoreStatusConverter
+import com.side.project.common.payload.BaseEntity
+import jakarta.persistence.*
+import java.time.LocalDateTime
+
+@Entity
+@Table(name = "StoreApplication")
+class StoreApplication (
+    @ManyToOne
+    @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    var store: Store?,
+
+    @Column(nullable = false)
+    var name: String,
+
+    @Column(nullable = false)
+    var introComment: String,
+
+    @Column(nullable = false)
+    var imageUrl: String,
+
+    @Column(nullable = false)
+    var address: String,
+
+    @Column(nullable = false)
+    var phoneNumber: String,
+
+    @Column(nullable = false)
+    var businessNumber: String,
+
+    @Column(nullable = false)
+    var openDate: LocalDateTime,
+
+    @Column(nullable = false)
+    var certificated: Boolean,
+
+    @Convert(converter = StoreStatusConverter::class)
+    @Column
+    var status: StoreStatus?,
+
+    @Column(nullable = false)
+    var approval: Boolean
+): BaseEntity()

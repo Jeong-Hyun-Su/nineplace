@@ -58,6 +58,7 @@ class OrderService (
                               this.product = product
                               this.status = OrderStatus.CLOSED
                               this.discount = discount
+                              this.store = product.store
                         }
         )
         // 할인정보 연관관계 설정

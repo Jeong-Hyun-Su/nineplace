@@ -34,7 +34,7 @@ class Product(
 
     @ManyToOne
     @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var store: Store?,
+    var store: Store,
 
     @OneToMany(mappedBy = "product", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
     var grpOpt: MutableList<ProductGrpOpt>? = ArrayList(),
@@ -50,8 +50,7 @@ class Product(
     @OneToMany(mappedBy = "product")
     val order: MutableList<Order> = ArrayList(),
 
-    id: Long = 0L
-): BaseEntity(id) {
+): BaseEntity() {
     fun update(productUpdateRequest: ProductUpdateRequest) {
         this.name = productUpdateRequest.name
         this.price = productUpdateRequest.price

@@ -18,7 +18,7 @@ class Discount (
 
     @Convert(converter = DiscountTypeConverter::class)
     @Column(nullable = false)
-    var type: DiscountType,
+    var type: DiscountType?,
 
     @Column(nullable = false)
     var percent: Long,
@@ -43,7 +43,7 @@ class Discount (
 
     @Convert(converter = DiscountStatusConverter::class)
     @Column(nullable = false)
-    var status: DiscountStatus,
+    var status: DiscountStatus?,
 
     @ManyToOne
     @JoinColumn(name = "orderId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))

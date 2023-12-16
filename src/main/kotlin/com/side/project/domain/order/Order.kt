@@ -7,6 +7,7 @@ import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.bill.Bill
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.product.Product
+import com.side.project.domain.store.Store
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -16,7 +17,7 @@ class Order (
     @Column(nullable = false)
     var title: String,
 
-    @Column(nullable = false)
+    @Column
     var content: String,
 
     @Column
@@ -42,11 +43,15 @@ class Order (
 
     @Column(nullable = false)
     @Convert(converter = OrderStatusConverter::class)
-    var status: OrderStatus,
+    var status: OrderStatus?,
 
     @ManyToOne
     @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var product: Product,
+
+    @ManyToOne
+    @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    var store: Store,
 
     //Section 할인율 정보
     @OneToMany(mappedBy = "order")
@@ -56,9 +61,7 @@ class Order (
     var bill: MutableList<Bill> = ArrayList(),
 
     //등록자
-
-    id: Long = 0L
-): BaseEntity(id) {
+): BaseEntity() {
     fun increaseClientCount() {
         this.clientCount += 1
     }

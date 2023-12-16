@@ -6,11 +6,11 @@ import java.time.LocalDateTime
 data class StoreDto(
     var name: String?,
     var product: ArrayList<ProductNoStoreDto?>,
-    var intro_comment: String?,
-    var image_url: String?,
+    var introComment: String?,
+    var imageUrl: String?,
     var address: String?,
-    var phone_number: String?,
-    var business_number: String?,
-    var open_date: LocalDateTime?,
-    var certificated_yn: Boolean?,
+    var phoneNumber: String?,
+    var businessNumber: String?,
+    var openDate: LocalDateTime?,
+    var certificated: Boolean?,
 )
