@@ -1,6 +1,6 @@
 package com.side.project
 
-import com.side.project.common.code.discount.DiscountType
+import com.side.project.common.code.type.DiscountType
 import com.side.project.common.code.status.OrderStatus
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.order.Order

@@ -4,12 +4,12 @@ import com.side.project.common.code.status.StoreStatus
 import com.side.project.common.code.status.StoreStatusConverter
 import com.side.project.common.payload.BaseEntity
 import jakarta.persistence.*
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Entity
 @Table(name = "StoreApplication")
 class StoreApplication (
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var store: Store?,
 
@@ -32,10 +32,7 @@ class StoreApplication (
     var businessNumber: String,
 
     @Column(nullable = false)
-    var openDate: LocalDateTime,
-
-    @Column(nullable = false)
-    var certificated: Boolean,
+    var openDate: LocalDate,
 
     @Convert(converter = StoreStatusConverter::class)
     @Column

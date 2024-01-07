@@ -10,7 +10,7 @@ import jakarta.persistence.Convert
 import jakarta.persistence.Entity
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Entity
 @Table(name = "Store")
@@ -34,13 +34,10 @@ class Store (
     var businessNumber: String?,
 
     @Column
-    var openDate: LocalDateTime?,
+    var openDate: LocalDate?,
 
-    @Column(nullable = false)
-    var certificated: Boolean,
-
-    @Convert(converter = StoreStatusConverter::class)
     @Column
+    @Convert(converter = StoreStatusConverter::class)
     var status: StoreStatus,
 
     @OneToMany(mappedBy = "store")

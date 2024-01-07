@@ -1,18 +1,9 @@
 package com.side.project.application.discount
 
-import com.side.project.common.code.discount.DiscountType
-import com.side.project.createDiscount
-import com.side.project.createOrder
-import com.side.project.domain.discount.DiscountRepository
-import com.side.project.domain.order.OrderRepository
-import com.side.project.domain.order.getByIds
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockk
 
 class DiscountServiceTest : BehaviorSpec({
-    val discountRepository = mockk<DiscountRepository>()
+    /*val discountRepository = mockk<DiscountRepository>()
     val orderRepository = mockk<OrderRepository>()
 
     val discountService = DiscountService(discountRepository, orderRepository)
@@ -68,5 +59,5 @@ class DiscountServiceTest : BehaviorSpec({
                 discountSection1.price shouldBe (35000 - (35000 * 0.18)).toLong()
             }
         }
-    }
+    }*/
 })

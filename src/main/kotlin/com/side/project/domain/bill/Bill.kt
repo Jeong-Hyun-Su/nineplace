@@ -15,7 +15,7 @@ class Bill (
     @OneToMany(mappedBy = "bill", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
     var billProduct: MutableList<BillProduct>? = ArrayList(),
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var order: Order
 

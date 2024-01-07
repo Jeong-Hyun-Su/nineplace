@@ -10,7 +10,7 @@ class ProductGrpOpt (
     @Column(nullable = false)
     var name: String,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var product: Product?,
 

@@ -13,15 +13,15 @@ class BillProduct(
     @Column
     var amount: Long,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "billId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var bill: Bill,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grpOptId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var grpOpt: ProductGrpOpt,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "detailOptId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var detailOpt: ProductDetailOpt,
 ): BaseEntity()

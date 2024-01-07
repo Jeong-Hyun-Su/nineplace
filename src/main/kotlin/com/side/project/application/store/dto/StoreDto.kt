@@ -1,16 +1,20 @@
 package com.side.project.application.store.dto
 
-import com.side.project.application.product.dto.ProductNoStoreDto
-import java.time.LocalDateTime
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.side.project.application.product.dto.ProductDto
+import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDate
 
 data class StoreDto(
-    var name: String?,
-    var product: ArrayList<ProductNoStoreDto?>,
-    var introComment: String?,
-    var imageUrl: String?,
-    var address: String?,
-    var phoneNumber: String?,
-    var businessNumber: String?,
-    var openDate: LocalDateTime?,
-    var certificated: Boolean?,
+    val name: String?,
+    val product: ArrayList<ProductDto?>,
+    val introComment: String?,
+    val imageUrl: String?,
+    val address: String?,
+    val phoneNumber: String?,
+    val businessNumber: String?,
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    val openDate: LocalDate?,
 )

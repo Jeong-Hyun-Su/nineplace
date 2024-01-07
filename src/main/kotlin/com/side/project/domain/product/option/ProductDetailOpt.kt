@@ -11,7 +11,7 @@ class ProductDetailOpt (
     @Column(nullable = false)
     var price: Long,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grpOptId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var grpOpt: ProductGrpOpt?,
 

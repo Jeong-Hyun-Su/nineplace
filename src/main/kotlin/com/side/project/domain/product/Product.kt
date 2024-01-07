@@ -32,18 +32,18 @@ class Product(
     @Convert(converter = ProductStatusConverter::class)
     var status: ProductStatus,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var store: Store,
 
     @OneToMany(mappedBy = "product", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
     var grpOpt: MutableList<ProductGrpOpt>? = ArrayList(),
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var category: Category?,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "detailCategoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var detailCategory: DetailCategory?,
 
