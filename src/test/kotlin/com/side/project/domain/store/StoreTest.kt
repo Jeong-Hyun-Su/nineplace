@@ -13,7 +13,7 @@ class StoreTest: StringSpec({
 
         assertSoftly (storeDto) {
             storeDto.name shouldBe "kotest 가게"
-            storeDto.business_number shouldBe "423-520102"
+            storeDto.businessNumber shouldBe "423-520102"
         }
     }
 })

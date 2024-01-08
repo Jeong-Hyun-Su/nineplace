@@ -5,6 +5,7 @@ import com.side.project.common.code.status.OrderStatus
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.order.Order
 import com.side.project.domain.product.Product
+import com.side.project.domain.store.Store
 import java.time.LocalDateTime
 
 fun createOrder(
@@ -21,7 +22,8 @@ fun createOrder(
     discount: List<Discount> = listOf(createDiscount(name = "섹션 1구간", type = DiscountType.SECTION, clientSection = 10L),
                                       createDiscount(name = "섹션 2구간", type = DiscountType.SECTION, clientSection = 20L),
                                       createDiscount(name = "프로모션", type = DiscountType.PROMOTION, clientSection = 20L),),
-    product: Product? = null,
+    product: Product = createProduct(),
+    store: Store = createStore()
 ): Order {
     return Order(title = title,
                  content = content,
@@ -34,5 +36,6 @@ fun createOrder(
                  viewCount = viewCount,
                  status = status,
                  discount = discount.toMutableList(),
-                 product = createProduct())
+                 product = product,
+                 store = store)
 }

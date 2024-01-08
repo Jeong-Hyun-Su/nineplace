@@ -10,7 +10,7 @@ import com.side.project.common.code.status.ProductStatus
 data class ProductDto (
     val name: String,
     val price: Long,
-    val image_url: String?,
+    val imageUrl: String?,
     val content: String,
     val status: ProductStatus?,
     val store: StoreNoProductDto?,
@@ -23,7 +23,7 @@ data class ProductDto (
 data class ProductNoStoreDto(
     val name: String?,
     val price: Long,
-    val image_url: String?,
+    val imageUrl: String?,
     val status: ProductStatus?,
 )
 
@@ -32,7 +32,7 @@ data class ProductRequest (
     val name: String,
     val content: String,
     val price: Long,
-    val image_url: String?,
+    val imageUrl: String?,
     val categoryId: Long,
     val detailCategoryId: Long,
     val grpOpt: ArrayList<ProductGrpOptDto>,
@@ -41,7 +41,7 @@ data class ProductRequest (
 data class ProductUpdateRequest (
     val name: String,
     val price: Long,
-    val image_url: String?,
+    val imageUrl: String?,
     val content: String,
     val status: ProductStatus
 )

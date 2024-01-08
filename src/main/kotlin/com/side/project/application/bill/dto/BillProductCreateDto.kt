@@ -1,7 +1,7 @@
 package com.side.project.application.bill.dto
 
 data class BillProductCreateDto (
-    var amount: Long,
-    var grpOptId: Long,
-    var detailOptId: Long
+    val amount: Long,
+    val grpOptId: Long,
+    val detailOptId: Long
 )

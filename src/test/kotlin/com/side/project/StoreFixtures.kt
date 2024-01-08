@@ -1,6 +1,8 @@
 package com.side.project
 
+import com.side.project.common.code.status.StoreStatus
 import com.side.project.domain.store.Store
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 
@@ -8,18 +10,19 @@ import java.time.LocalDateTime
 fun createStore(
     name: String = "kotest 가게",
     address: String? = "매천로 881",
-    certificated_yn: Boolean = false,
-    business_number: String? = "423-520102",
-    image_url: String? = "/assets/kotest/koest1.jpg",
-    intro_comment: String? = "환영합니다. kotest 가게입니다.",
-    phone_number: String? = "010-2020-3033",
+    businessNumber: String? = "423-520102",
+    imageUrl: String? = "/assets/kotest/koest1.jpg",
+    introComment: String? = "환영합니다. kotest 가게입니다.",
+    phoneNumber: String? = "010-2020-3033",
+    openDate: LocalDate = LocalDate.now(),
+    status: StoreStatus = StoreStatus.OPEN,
 ): Store{
     return Store(name = name,
-                 certificated_yn = certificated_yn,
                  address = address,
-                 business_number = business_number,
-                 image_url = image_url,
-                 intro_comment = intro_comment,
-                 phone_number = phone_number,
-                 open_date = LocalDateTime.now())
+                 businessNumber = businessNumber,
+                 imageUrl = imageUrl,
+                 introComment = introComment,
+                 phoneNumber = phoneNumber,
+                 openDate = openDate,
+                 status = status)
 }

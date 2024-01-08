@@ -1,6 +1,5 @@
 package com.side.project.domain.product
 
-import com.side.project.application.product.dto.ProductDto
 import com.side.project.application.product.dto.ProductUpdateRequest
 import com.side.project.common.code.status.ProductStatus
 import com.side.project.common.code.status.ProductStatusConverter
@@ -23,7 +22,7 @@ class Product(
     var price: Long,
 
     @Column
-    var image_url: String?,
+    var imageUrl: String?,
 
     @Column
     var content: String,
@@ -50,11 +49,11 @@ class Product(
     @OneToMany(mappedBy = "product")
     val order: MutableList<Order> = ArrayList(),
 
-): BaseEntity() {
+    ): BaseEntity() {
     fun update(productUpdateRequest: ProductUpdateRequest) {
         this.name = productUpdateRequest.name
         this.price = productUpdateRequest.price
-        this.image_url = productUpdateRequest.image_url
+        this.imageUrl = productUpdateRequest.imageUrl
         this.content = productUpdateRequest.content
         this.status = productUpdateRequest.status
     }

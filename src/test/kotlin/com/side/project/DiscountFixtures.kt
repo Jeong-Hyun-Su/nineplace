@@ -1,5 +1,6 @@
 package com.side.project
 
+import com.side.project.common.code.status.DiscountStatus
 import com.side.project.common.code.type.DiscountType
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.order.Order
@@ -15,7 +16,7 @@ fun createDiscount(
     duplicateAmount: Long = 1L,
     startDate: LocalDateTime? = null,
     endDate: LocalDateTime? = null,
-    status: Boolean = true,
+    status: DiscountStatus = DiscountStatus.ACTIVATE,
     order: Order? = null
 ): Discount {
     return Discount(name = name,
