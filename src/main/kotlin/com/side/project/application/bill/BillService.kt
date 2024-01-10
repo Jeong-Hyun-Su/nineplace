@@ -3,6 +3,7 @@ package com.side.project.application.bill
 import com.side.project.application.bill.dto.BillCreateDto
 import com.side.project.application.bill.dto.BillDto
 import com.side.project.application.discount.DiscountService
+import com.side.project.common.annotation.lock.DistributedLock
 import com.side.project.domain.bill.Bill
 import com.side.project.domain.bill.BillMapper
 import com.side.project.domain.bill.getByIds
@@ -25,7 +26,7 @@ class BillService(
                              .let(BillMapper.INSTANCE::toDto)
     }
 
-    @Transactional
+    @DistributedLock(key = "#billCreateDto.orderId")
     fun create(billCreateDto: BillCreateDto) {
         val order = orderRepository.getByIds(billCreateDto.orderId)
 

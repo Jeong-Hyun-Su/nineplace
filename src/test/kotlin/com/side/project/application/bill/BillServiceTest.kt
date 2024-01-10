@@ -18,6 +18,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -74,7 +75,8 @@ class BillServiceTest : BehaviorSpec({
 
 
     Given("상품 구매(동시성 체크)"){
-        val order = createOrder(clientCount = 0, clientLimit = 500)
+        val clientMax = 2000
+        val order = createOrder(clientCount = 0, clientLimit = clientMax.toLong())
 
         every{ orderRepository.getByIds(any()) }   returns order
         every{ billRepository.save(any()) }        returns createBill(title = "bill", price = 0, order = order)
@@ -84,26 +86,33 @@ class BillServiceTest : BehaviorSpec({
         every{ productDetailOptRepository.getByIds(2L) } returns createProductDetailOpt(price = 20000L)
 
         When("Bill 생성"){
-            val service: ExecutorService = Executors.newFixedThreadPool(4)
+            val service: ExecutorService = Executors.newFixedThreadPool(clientMax)
+            val latch: CountDownLatch = CountDownLatch(clientMax)
 
-            repeat(500) {
-                service.execute {
-                    billService.create(
-                        BillCreateDto(
-                            orderId = 1,
-                            title = "bill",
-                            discountList = null,
-                            billProduct = listOf(
-                                BillProductCreateDto(amount = 5, grpOptId = 1L, detailOptId = 1L),
-                                BillProductCreateDto(amount = 3, grpOptId = 1L, detailOptId = 2L)
+            repeat(clientMax) {
+                service.submit {
+                    try {
+                        billService.create(
+                            BillCreateDto(
+                                orderId = 1,
+                                title = "bill",
+                                discountList = null,
+                                billProduct = listOf(
+                                    BillProductCreateDto(amount = 5, grpOptId = 1L, detailOptId = 1L),
+                                    BillProductCreateDto(amount = 3, grpOptId = 1L, detailOptId = 2L)
+                                )
                             )
                         )
-                    )
+                    } finally {
+                        latch.countDown()
+                    }
                 }
             }
+            latch.await()
 
-            Then("order 정상적으로 완료하였는지").config(invocations = 30, threads = 30){
-                order.clientCount shouldBe 500
+            val orderResult = orderRepository.getByIds(1L)
+            Then("order 정상적으로 완료하였는지"){
+                orderResult.clientCount shouldBe clientMax
             }
         }
     }
