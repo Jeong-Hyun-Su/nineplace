@@ -7,7 +7,7 @@ import com.side.project.domain.order.Order
 class PromotionDiscountStrategy(
     val discount: Discount
 ): DiscountStrategy {
-    override fun calculator(order: Order): Long {
+    override fun calculate(order: Order): Long {
         return discount.percent
     }
 }

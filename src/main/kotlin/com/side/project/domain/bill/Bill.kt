@@ -12,8 +12,11 @@ class Bill (
     @Column
     var price: Long,
 
+    @Column
+    var percent: Long,
+
     @OneToMany(mappedBy = "bill", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
-    var billProduct: MutableList<BillProduct>? = ArrayList(),
+    var billProduct: MutableList<BillProduct> = ArrayList(),
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))

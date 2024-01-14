@@ -15,6 +15,7 @@ import com.side.project.domain.order.getByIds
 import com.side.project.domain.product.ProductRepository
 import com.side.project.domain.product.getByIds
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 @Service
@@ -103,5 +104,11 @@ class OrderService (
         discounts.forEach { it.delete() }
         // 공동구매 "삭제" 상태로 변경(히스토리)
         order.delete()
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    fun closedByMaxClient(orderId: Long) {
+        val order = orderRepository.getByIds(orderId)
+        order.status = OrderStatus.CLOSED
     }
 }

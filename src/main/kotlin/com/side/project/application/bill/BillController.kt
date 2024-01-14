@@ -1,6 +1,6 @@
 package com.side.project.application.bill
 
-import com.side.project.application.bill.dto.BillCreateDto
+import com.side.project.application.bill.dto.BillRequest
 import com.side.project.application.bill.dto.BillDto
 import com.side.project.common.payload.ApiResponse
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -24,8 +24,8 @@ class BillController(
     }
 
     @PostMapping
-    fun billCreate(@RequestBody billCreateDto: BillCreateDto): ApiResponse<Nothing> {
-        billService.create(billCreateDto)
+    fun billCreate(@RequestBody billRequest: BillRequest): ApiResponse<Nothing> {
+        billService.create(billRequest)
 
         return ApiResponse.created(message = "Bill 생성 성공")
     }

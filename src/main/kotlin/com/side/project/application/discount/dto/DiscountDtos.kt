@@ -31,3 +31,7 @@ data class DiscountInProductUpdateRequest (
     val clientSection: Long,
     val status: DiscountStatus,
 )
+
+data class DiscountIdsDto (
+    val id: Long
+)

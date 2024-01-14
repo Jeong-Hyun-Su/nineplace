@@ -1,6 +1,6 @@
 package com.side.project.domain.bill
 
-import com.side.project.application.bill.dto.BillProductCreateDto
+import com.side.project.application.bill.dto.BillProductRequest
 import com.side.project.application.bill.dto.BillProductDto
 import org.mapstruct.InheritInverseConfiguration
 import org.mapstruct.Mapper
@@ -13,7 +13,7 @@ interface BillProductMapper {
     fun toDto(billProduct: BillProduct): BillProductDto
 
     @InheritInverseConfiguration
-    fun ofBillProduct(billProductCreateDto: BillProductCreateDto): BillProduct
+    fun of(billProductRequest: BillProductRequest): BillProduct
 
     companion object {
         val INSTANCE = Mappers.getMapper(BillProductMapper::class.java)

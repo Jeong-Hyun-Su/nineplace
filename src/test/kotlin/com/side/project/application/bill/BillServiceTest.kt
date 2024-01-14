@@ -1,8 +1,8 @@
 package com.side.project.application.bill
 
 import com.side.project.*
-import com.side.project.application.bill.dto.BillCreateDto
-import com.side.project.application.bill.dto.BillProductCreateDto
+import com.side.project.application.bill.dto.BillRequest
+import com.side.project.application.bill.dto.BillProductRequest
 import com.side.project.application.discount.DiscountService
 import com.side.project.domain.bill.BillProductRepository
 import com.side.project.domain.bill.BillRepository
@@ -17,7 +17,6 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -45,10 +44,10 @@ class BillServiceTest : BehaviorSpec({
         every{ productDetailOptRepository.getByIds(2L) } returns createProductDetailOpt(price = 20000L)
 
         When("Bill 생성"){
-            billService.create(BillCreateDto(orderId = 1,
+            billService.create(BillRequest(orderId = 1,
                                              title = "bill",
-                                             billProduct = listOf(BillProductCreateDto(amount = 5, grpOptId = 1L, detailOptId = 1L),
-                                                                  BillProductCreateDto(amount = 3, grpOptId = 1L, detailOptId = 2L)),
+                                             billProduct = listOf(BillProductRequest(amount = 5, grpOptId = 1L, detailOptId = 1L),
+                                                                  BillProductRequest(amount = 3, grpOptId = 1L, detailOptId = 2L)),
                                              discountList = null))
 
             Then("디버깅 시, price 정상 대입 확인"){}
@@ -61,10 +60,10 @@ class BillServiceTest : BehaviorSpec({
 
         When("인원이 꽉 찼을 경우,"){
             val exception = shouldThrow<Exception> {
-                billService.create(BillCreateDto(orderId = 1,
+                billService.create(BillRequest(orderId = 1,
                                                  title = "bill",
-                                                 billProduct = listOf(BillProductCreateDto(amount = 50000, grpOptId = 1L, detailOptId = 1L),
-                                                                      BillProductCreateDto(amount = 70000, grpOptId = 1L, detailOptId = 2L)),
+                                                 billProduct = listOf(BillProductRequest(amount = 50000, grpOptId = 1L, detailOptId = 1L),
+                                                                      BillProductRequest(amount = 70000, grpOptId = 1L, detailOptId = 2L)),
                                                  discountList = null))
             }
             Then("예외 메시지 호출"){
@@ -93,13 +92,13 @@ class BillServiceTest : BehaviorSpec({
                 service.submit {
                     try {
                         billService.create(
-                            BillCreateDto(
+                            BillRequest(
                                 orderId = 1,
                                 title = "bill",
                                 discountList = null,
                                 billProduct = listOf(
-                                    BillProductCreateDto(amount = 5, grpOptId = 1L, detailOptId = 1L),
-                                    BillProductCreateDto(amount = 3, grpOptId = 1L, detailOptId = 2L)
+                                    BillProductRequest(amount = 5, grpOptId = 1L, detailOptId = 1L),
+                                    BillProductRequest(amount = 3, grpOptId = 1L, detailOptId = 2L)
                                 )
                             )
                         )

@@ -1,6 +1,6 @@
 package com.side.project.application.bill
 
-import com.side.project.application.bill.dto.BillProductCreateDto
+import com.side.project.application.bill.dto.BillProductRequest
 import com.side.project.domain.bill.Bill
 import com.side.project.domain.bill.BillProduct
 import com.side.project.domain.bill.BillProductRepository
@@ -17,30 +17,33 @@ class BillProductService(
     private val productGrpOptRepository: ProductGrpOptRepository,
     private val productDetailOptRepository: ProductDetailOptRepository
 ) {
-    // 주문상품 생성
-    fun create(billProductDto: BillProductCreateDto, bill: Bill): BillProduct {
-        val grpOpt = productGrpOptRepository.getByIds(billProductDto.grpOptId)
-        val detailOpt = productDetailOptRepository.getByIds(billProductDto.detailOptId)
+    @Transactional
+    fun create(billProductRequest: BillProductRequest, bill: Bill): BillProduct {
+        val grpOpt = productGrpOptRepository.getByIds(billProductRequest.grpOptId)
+        val detailOpt = productDetailOptRepository.getByIds(billProductRequest.detailOptId)
 
         return billProductRepository.save(
             BillProduct(
-                amount = billProductDto.amount,
                 bill = bill,
-                price = detailOpt.price * billProductDto.amount,
                 grpOpt = grpOpt,
-                detailOpt = detailOpt
+                detailOpt = detailOpt,
+                amount = billProductRequest.amount,
+                price = detailOpt.price * billProductRequest.amount
             )
         )
     }
 
-    // 주문상품 리스트 생성 및 모든 상품 가격 합
-    fun createListAndReturnTotalPrice(billProductList: List<BillProductCreateDto>?, bill: Bill): Long{
-        var price = 0L
+    @Transactional
+    fun createAll(billProductRequests: List<BillProductRequest>, bill: Bill): List<BillProduct> {
+        val billProducts: ArrayList<BillProduct> = arrayListOf()
 
-        billProductList?.forEach {
-            val billProduct = create(it, bill)
-            price += billProduct.price
+        for(billProductRequest in billProductRequests){
+            billProducts.add(create(billProductRequest, bill))
         }
-        return price
+        return billProducts
+    }
+
+    fun getTotalPrice(billProducts: List<BillProduct>): Long {
+        return billProducts.sumOf { it.price }
     }
 }

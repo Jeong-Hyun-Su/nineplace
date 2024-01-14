@@ -63,6 +63,7 @@ class Order (
     //등록자
 ): BaseEntity() {
     fun increaseClientCount() {
+        check( clientCount + 1 <= clientLimit ){ "인원이 꽉 찼습니다." }
         this.clientCount += 1
     }
 

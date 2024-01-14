@@ -1,6 +1,8 @@
 package com.side.project.application.discount
 
 import com.side.project.application.discount.dto.DiscountDto
+import com.side.project.application.discount.dto.DiscountIdsDto
+import com.side.project.common.code.status.DiscountStatus
 import com.side.project.common.code.type.DiscountType
 import com.side.project.domain.discount.Discount
 import com.side.project.domain.discount.DiscountMapper
@@ -21,26 +23,44 @@ class DiscountService(
         return discountRepository.getByIds(id)
                                  .let(DiscountMapper.INSTANCE::toDto)
     }
-
-    fun calculator(order: Order, price: Long, discountIdList: List<Long>?): Long {
-        // Select Discount List - 쿠폰 제외, 시작기간~종료기간, 활성화
+    fun getPercentFromOrder(order: Order): Long {
         val orderDiscount: List<Discount> = order.discount
-        var percent = 0L
 
         // 상품에 적용되어 있는 할인전략들 적용
         val discountStrategyList = DiscountFactory.createList(orderDiscount)
-        discountStrategyList.forEach { percent += it?.calculator(order) ?: throw Exception("상품 할인 오류") }
+        return discountStrategyList.map { it?.calculate(order) ?: throw Exception("상품 할인 오류")  }
+                                   .sumOf { it }
+    }
+    fun getPercentFromUser(discountIds: List<DiscountIdsDto>?): Long {
+        if (discountIds == null) return 0L
 
-        //그 외 상품에 적용되지 않은 활성화된 할인방법(쿠폰 등) 적용(전달받은 항목)
-        if( discountIdList != null ) {
-            val discountList: List<Discount> = discountRepository.findDiscountsByIds(discountIdList)
-            discountList.filter { it.type != DiscountType.SECTION }.forEach { percent += it.percent }
-        }
+        val discountList: List<Discount> = discountRepository.findDiscountsByIds(discountIds.map{ it.id })
+        return discountList.filter { it.status == DiscountStatus.ACTIVATE && it.type != DiscountType.SECTION }
+                           .sumOf { it.percent }
+    }
+    fun getFinalPercent(order: Order, discountIds: List<DiscountIdsDto>?): Long {
+        // Select Discount List - 쿠폰 제외, 시작기간~종료기간, 활성화
+        var percent = 0L
 
+        percent += getPercentFromOrder(order)
+        percent += getPercentFromUser(discountIds)
         // 제품의 최대할인이 넘지 않도록 조정
-        percent = min(order.discountLimit, percent)
-
-        // 할인가격 계산
+        return min(order.discountLimit, percent)
+    }
+    fun calculatePrice(price: Long, percent: Long): Long {
         return (price - (price * 0.01 * percent)).toLong()
+    }
+
+    @Transactional
+    fun activateSection(order: Order) {
+        val orderDiscount: List<Discount> = order.discount
+        // SECTION 타입이고, 활성화되지 않은 섹션은 인원 충족시 활성화
+        val discount: Discount? = orderDiscount.filter {
+            it.type == DiscountType.SECTION &&
+            it.status == DiscountStatus.DEACTIVATE &&
+            (order.clientCount - it.clientSection) >= 0
+        }.maxByOrNull { order.clientCount }
+
+        discount?.status = DiscountStatus.ACTIVATE
     }
 }

@@ -9,11 +9,13 @@ fun createBill(
     price: Long = 50000L,
     billProduct: List<BillProduct> = listOf(),
     order: Order = createOrder(),
+    percent: Long = 10L,
 ): Bill{
     return Bill(
         title = title,
         price = price,
         billProduct = billProduct.toMutableList(),
-        order = order
+        order = order,
+        percent = percent
     )
 }

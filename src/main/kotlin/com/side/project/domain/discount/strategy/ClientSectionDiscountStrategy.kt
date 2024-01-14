@@ -7,7 +7,7 @@ import com.side.project.domain.order.Order
 class ClientSectionDiscountStrategy(
     private val discount: Discount
 ): DiscountStrategy {
-    override fun calculator(order: Order): Long {
+    override fun calculate(order: Order): Long {
         if(order.clientCount >= discount.clientSection)
             return discount.percent
 

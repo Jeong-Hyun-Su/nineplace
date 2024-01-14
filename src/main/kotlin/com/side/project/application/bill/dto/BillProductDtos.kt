@@ -10,3 +10,9 @@ data class BillProductDto (
     var grpOpt: ProductGrpOptDto,
     var detailOpt: ProductDetailOptDto,
 )
+
+data class BillProductRequest (
+    val amount: Long,
+    val grpOptId: Long,
+    val detailOptId: Long
+)
