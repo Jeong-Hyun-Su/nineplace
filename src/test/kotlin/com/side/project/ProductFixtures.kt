@@ -5,7 +5,7 @@ import com.side.project.domain.category.Category
 import com.side.project.domain.category.DetailCategory
 import com.side.project.domain.order.Order
 import com.side.project.domain.product.Product
-import com.side.project.domain.product.option.ProductGrpOpt
+import com.side.project.domain.product.option.ProductGroupOpt
 import com.side.project.domain.store.Store
 import java.util.ArrayList
 
@@ -16,7 +16,7 @@ fun createProduct(
     content: String = "컨텐츠",
     status: ProductStatus = ProductStatus.OPENED,
     store: Store = createStore(),
-    grpOpt: MutableList<ProductGrpOpt>? = ArrayList(),
+    grpOpt: MutableList<ProductGroupOpt>? = ArrayList(),
     category: Category? = null,
     detailCategory: DetailCategory? = null,
     order: MutableList<Order> = ArrayList(),

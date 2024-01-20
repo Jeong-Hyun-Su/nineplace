@@ -7,6 +7,7 @@ import com.side.project.application.product.dto.ProductNoStoreDto
 import com.side.project.common.code.status.OrderStatus
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
+import java.util.UUID
 
 data class OrderDto (
     val title: String,
@@ -21,7 +22,7 @@ data class OrderDto (
 )
 
 data class OrderRequest (
-    val productId: Long,
+    val productId: UUID,
     val title: String,
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

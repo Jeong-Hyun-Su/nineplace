@@ -15,6 +15,7 @@ import com.side.project.domain.order.getByIds
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -25,7 +26,7 @@ class BillService(
     private val billProductService: BillProductService,
     private val discountService: DiscountService,
 ) {
-    fun getById(id: Long): BillDto {
+    fun getById(id: UUID): BillDto {
         return billRepository.getByIds(id)
                              .let(BillMapper.INSTANCE::toDto)
     }
@@ -64,7 +65,7 @@ class BillService(
     }
 
     @Transactional
-    fun delete(id: Long) {
+    fun delete(id: UUID) {
         check(billRepository.existsById(id)){ "삭제할 주문이 없습니다." }
 
         billRepository.deleteById(id)

@@ -6,13 +6,14 @@ import com.side.project.application.category.dto.DetailCategoryCreateDto
 import com.side.project.application.category.dto.DetailCategoryDto
 import com.side.project.common.payload.ApiResponse
 import org.springframework.web.bind.annotation.*
+import java.util.UUID
 
 @RestController
 class CategoryController(
     private val categoryService: CategoryService,
 ) {
     @GetMapping("/category/{id}")
-    fun categoryGet(@PathVariable id: Long): ApiResponse<CategoryDto> {
+    fun categoryGet(@PathVariable id: UUID): ApiResponse<CategoryDto> {
         val category = categoryService.getCategoryById(id)
 
         return ApiResponse.ok(message = "카테고리 조회 성공", data = category)
@@ -26,14 +27,14 @@ class CategoryController(
     }
 
     @DeleteMapping("/category/{id}")
-    fun categoryDelete(@PathVariable id: Long): ApiResponse<Nothing> {
+    fun categoryDelete(@PathVariable id: UUID): ApiResponse<Nothing> {
         categoryService.deleteCategory(id)
 
         return ApiResponse.ok(message = "카테고리 삭제 완료")
     }
 
     @GetMapping("/detail-category/{id}")
-    fun detailCategoryGet(@PathVariable id: Long): ApiResponse<DetailCategoryDto> {
+    fun detailCategoryGet(@PathVariable id: UUID): ApiResponse<DetailCategoryDto> {
         val detailCategory = categoryService.getDetailCategoryById(id)
 
         return ApiResponse.ok(message = "상세 카테고리 조회 성공", data = detailCategory)
@@ -47,7 +48,7 @@ class CategoryController(
     }
 
     @DeleteMapping("/detail-category/{id}")
-    fun detailCategoryDelete(@PathVariable id: Long): ApiResponse<Nothing> {
+    fun detailCategoryDelete(@PathVariable id: UUID): ApiResponse<Nothing> {
         categoryService.deleteDetailCategory(id)
 
         return ApiResponse.ok(message = "상세 카테고리 삭제 완료")

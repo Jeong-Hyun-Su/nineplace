@@ -4,6 +4,7 @@ import com.side.project.application.order.dto.OrderDto
 import com.side.project.common.code.status.DiscountStatus
 import com.side.project.common.code.type.DiscountType
 import java.time.LocalDateTime
+import java.util.UUID
 
 data class DiscountDto (
     val name: String,
@@ -24,7 +25,7 @@ data class DiscountInProductRequest (
 )
 
 data class DiscountInProductUpdateRequest (
-    val id: Long,
+    val id: UUID,
     val name: String,
     val type: DiscountType,
     val percent: Long,
@@ -33,5 +34,5 @@ data class DiscountInProductUpdateRequest (
 )
 
 data class DiscountIdsDto (
-    val id: Long
+    val id: UUID
 )

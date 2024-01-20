@@ -8,18 +8,19 @@ import com.side.project.domain.category.*
 import com.side.project.domain.order.OrderMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 class CategoryService (
     private val categoryRepository: CategoryRepository,
     private val detailCategoryRepository: DetailCategoryRepository,
 ){
-    fun getCategoryById(id: Long): CategoryDto {
+    fun getCategoryById(id: UUID): CategoryDto {
         return categoryRepository.getByIds(id)
                                  .let(CategoryMapper.INSTANCE::toCategoryDto)
     }
 
-    fun getDetailCategoryById(id: Long): DetailCategoryDto {
+    fun getDetailCategoryById(id: UUID): DetailCategoryDto {
         return detailCategoryRepository.getByIds(id)
                                        .let(CategoryMapper.INSTANCE::toDetailCategoryDto)
     }
@@ -41,13 +42,13 @@ class CategoryService (
         )
     }
 
-    fun deleteCategory(id: Long) {
+    fun deleteCategory(id: UUID) {
         check(categoryRepository.existsById(id)){ "삭제할 카테고리가 없습니다." }
 
         categoryRepository.deleteById(id)
     }
 
-    fun deleteDetailCategory(id: Long) {
+    fun deleteDetailCategory(id: UUID) {
         check(detailCategoryRepository.existsById(id)){ "삭제할 상세 카테고리가 없습니다." }
 
         detailCategoryRepository.deleteById(id)

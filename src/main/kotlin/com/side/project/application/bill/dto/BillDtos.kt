@@ -1,6 +1,7 @@
 package com.side.project.application.bill.dto
 
 import com.side.project.application.discount.dto.DiscountIdsDto
+import java.util.UUID
 
 data class BillDto (
     val title: String,
@@ -9,7 +10,7 @@ data class BillDto (
 )
 
 data class BillRequest (
-    val orderId: Long,
+    val orderId: UUID,
     val title: String,
     val billProduct: List<BillProductRequest>,
     val discountList: List<DiscountIdsDto>?,

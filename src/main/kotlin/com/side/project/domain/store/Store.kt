@@ -5,11 +5,7 @@ import com.side.project.common.code.status.StoreStatusConverter
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.order.Order
 import com.side.project.domain.product.Product
-import jakarta.persistence.Column
-import jakarta.persistence.Convert
-import jakarta.persistence.Entity
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
@@ -40,7 +36,8 @@ class Store (
     @Convert(converter = StoreStatusConverter::class)
     var status: StoreStatus,
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany
+    @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var product: MutableList<Product> = ArrayList(),
 
     @OneToMany(mappedBy = "store")

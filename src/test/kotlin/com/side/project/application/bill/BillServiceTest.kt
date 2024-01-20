@@ -10,7 +10,7 @@ import com.side.project.domain.discount.DiscountRepository
 import com.side.project.domain.order.OrderRepository
 import com.side.project.domain.order.getByIds
 import com.side.project.domain.product.option.ProductDetailOptRepository
-import com.side.project.domain.product.option.ProductGrpOptRepository
+import com.side.project.domain.product.option.ProductGroupOptRepository
 import com.side.project.domain.product.option.getByIds
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
@@ -25,12 +25,12 @@ class BillServiceTest : BehaviorSpec({
     val billRepository = mockk<BillRepository>()
     val orderRepository = mockk<OrderRepository>()
     val billProductRepository = mockk<BillProductRepository>()
-    val productGrpOptRepository = mockk<ProductGrpOptRepository>()
+    val productGroupOptRepository = mockk<ProductGroupOptRepository>()
     val productDetailOptRepository = mockk<ProductDetailOptRepository>()
     val discountRepository = mockk< DiscountRepository>()
 
     val discountService = DiscountService(discountRepository)
-    val billProductService = BillProductService(billProductRepository, productGrpOptRepository, productDetailOptRepository)
+    val billProductService = BillProductService(billProductRepository, productGroupOptRepository, productDetailOptRepository)
     val billService = BillService(billRepository, orderRepository, billProductService, discountService)
 
     Given("상품 구매 후,"){
@@ -39,7 +39,7 @@ class BillServiceTest : BehaviorSpec({
         every{ orderRepository.getByIds(any()) }   returns order
         every{ billRepository.save(any()) }        returns createBill(title = "bill", price = 0, order = order)
         every{ billProductRepository.save(any()) } returnsMany  listOf(createBillProduct(price = 10000 * 5), createBillProduct(price = 20000 * 3))
-        every{ productGrpOptRepository.getByIds(any()) } returns createProductGrpOpt()
+        every{ productGroupOptRepository.getByIds(any()) } returns createProductGrpOpt()
         every{ productDetailOptRepository.getByIds(1L) } returns createProductDetailOpt(price = 10000L)
         every{ productDetailOptRepository.getByIds(2L) } returns createProductDetailOpt(price = 20000L)
 
@@ -80,7 +80,7 @@ class BillServiceTest : BehaviorSpec({
         every{ orderRepository.getByIds(any()) }   returns order
         every{ billRepository.save(any()) }        returns createBill(title = "bill", price = 0, order = order)
         every{ billProductRepository.save(any()) } returnsMany  listOf(createBillProduct(price = 10000 * 5), createBillProduct(price = 20000 * 3))
-        every{ productGrpOptRepository.getByIds(any()) } returns createProductGrpOpt()
+        every{ productGroupOptRepository.getByIds(any()) } returns createProductGrpOpt()
         every{ productDetailOptRepository.getByIds(1L) } returns createProductDetailOpt(price = 10000L)
         every{ productDetailOptRepository.getByIds(2L) } returns createProductDetailOpt(price = 20000L)
 

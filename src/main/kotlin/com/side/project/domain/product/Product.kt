@@ -1,55 +1,62 @@
 package com.side.project.domain.product
 
+import com.side.project.application.product.dto.ProductRequest
 import com.side.project.application.product.dto.ProductUpdateRequest
 import com.side.project.common.code.status.ProductStatus
 import com.side.project.common.code.status.ProductStatusConverter
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.category.Category
-import com.side.project.domain.category.DetailCategory
 import com.side.project.domain.order.Order
-import com.side.project.domain.product.option.ProductGrpOpt
-import com.side.project.domain.store.Store
+import com.side.project.domain.product.option.ProductGroupOpt
 import jakarta.persistence.*
-import java.util.ArrayList
+import java.util.UUID
 
 @Entity
 @Table(name = "Product")
 class Product(
-    @Column(nullable = false)
-    var name: String,
-
-    @Column(nullable = false)
-    var price: Long,
+    name: String,
+    price: Long,
+    imageUrl: String?,
+    content: String,
+    storeId: UUID,
+    categoryId: UUID
+): BaseEntity() {
+    @Column
+    val storeId: UUID = storeId
 
     @Column
-    var imageUrl: String?,
+    val categoryId: UUID = categoryId
+
+    @Column(nullable = false)
+    var name: String = name
+        protected set
+
+    @Column(nullable = false)
+    var price: Long = price
+        protected set
 
     @Column
-    var content: String,
+    var imageUrl: String? = imageUrl
+        protected set
+
+    @Column
+    var content: String = content
+        protected set
 
     @Column
     @Convert(converter = ProductStatusConverter::class)
-    var status: ProductStatus,
+    var status: ProductStatus = ProductStatus.OPENED
+        protected set
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storeId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var store: Store,
 
     @OneToMany(mappedBy = "product", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
-    var grpOpt: MutableList<ProductGrpOpt>? = ArrayList(),
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var category: Category?,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "detailCategoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var detailCategory: DetailCategory?,
+    protected val groupOpt: MutableList<ProductGroupOpt>  = mutableListOf()
+    val groupOptions: List<ProductGroupOpt> get() = groupOpt.toList()
 
     @OneToMany(mappedBy = "product")
-    val order: MutableList<Order> = ArrayList(),
+    protected val order: MutableList<Order> = mutableListOf()
+    val orders: List<Order> get() = order.toList()
 
-    ): BaseEntity() {
     fun update(productUpdateRequest: ProductUpdateRequest) {
         this.name = productUpdateRequest.name
         this.price = productUpdateRequest.price
@@ -60,5 +67,18 @@ class Product(
 
     fun delete() {
         this.status = ProductStatus.REMOVE
+    }
+
+    companion object {
+        fun create(request: ProductRequest): Product {
+            return Product(
+                name = request.name,
+                price = request.price,
+                content = request.content,
+                imageUrl = request.imageUrl,
+                storeId = request.storeId,
+                categoryId = request.categoryId
+            )
+        }
     }
 }

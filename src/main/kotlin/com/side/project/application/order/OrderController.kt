@@ -5,6 +5,7 @@ import com.side.project.application.order.dto.OrderDto
 import com.side.project.application.order.dto.OrderUpdateRequest
 import com.side.project.common.payload.ApiResponse
 import org.springframework.web.bind.annotation.*
+import java.util.UUID
 
 @RestController
 @RequestMapping("/orders")
@@ -12,7 +13,7 @@ class OrderController(
     private val orderService: OrderService
 ){
     @GetMapping("/{id}")
-    fun orderGet(@PathVariable id: Long): ApiResponse<OrderDto> {
+    fun orderGet(@PathVariable id: UUID): ApiResponse<OrderDto> {
         val order = orderService.getById(id)
 
         return ApiResponse.ok(message = "조회 완료", data = order)
@@ -26,14 +27,14 @@ class OrderController(
     }
 
     @PatchMapping("/{id}")
-    fun orderUpdate(@PathVariable id: Long, @RequestBody orderUpdateRequest: OrderUpdateRequest): ApiResponse<Nothing> {
+    fun orderUpdate(@PathVariable id: UUID, @RequestBody orderUpdateRequest: OrderUpdateRequest): ApiResponse<Nothing> {
         orderService.update(id, orderUpdateRequest)
 
         return ApiResponse.ok(message = "주문 업데이트 완료")
     }
 
     @DeleteMapping("/{id}")
-    fun orderDelete(@PathVariable id: Long): ApiResponse<Nothing> {
+    fun orderDelete(@PathVariable id: UUID): ApiResponse<Nothing> {
         orderService.delete(id)
 
         return ApiResponse.ok(message = "주문 삭제 완료")

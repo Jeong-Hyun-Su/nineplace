@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 @RequestMapping("/products")
@@ -20,14 +21,14 @@ class ProductController(
     private val productService: ProductService
 ) {
     @GetMapping("/{id}/all-info")
-    fun productAllInfo(@PathVariable id: Long): ApiResponse<ProductDto> {
+    fun productAllInfo(@PathVariable id: UUID): ApiResponse<ProductDto> {
         val product = productService.getById(id)
 
         return ApiResponse.ok(data = product)
     }
 
     @GetMapping("/{id}")
-    fun productNoStore(@PathVariable id: Long): ApiResponse<ProductNoStoreDto> {
+    fun productNoStore(@PathVariable id: UUID): ApiResponse<ProductNoStoreDto> {
         val product = productService.getNoStoreById(id)
 
         return ApiResponse.ok(data = product)
@@ -41,14 +42,14 @@ class ProductController(
     }
 
     @PatchMapping("/{id}")
-    fun productUpdate(@PathVariable id: Long, @RequestBody productUpdateRequest: ProductUpdateRequest): ApiResponse<Nothing> {
+    fun productUpdate(@PathVariable id: UUID, @RequestBody productUpdateRequest: ProductUpdateRequest): ApiResponse<Nothing> {
         productService.update(id, productUpdateRequest)
 
         return ApiResponse.ok(message = "상품 업데이트 완료")
     }
 
     @DeleteMapping("/{id}")
-    fun productDelete(@PathVariable id: Long): ApiResponse<Nothing> {
+    fun productDelete(@PathVariable id: UUID): ApiResponse<Nothing> {
         productService.delete(id)
 
         return ApiResponse.ok(message = "상품 삭제 완료")

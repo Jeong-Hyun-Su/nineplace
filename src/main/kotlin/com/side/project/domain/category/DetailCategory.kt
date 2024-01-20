@@ -13,8 +13,7 @@ class DetailCategory (
     @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var category: Category?,
 
-    @OneToMany(mappedBy = "detailCategory")
-    var product: MutableList<Product>? = ArrayList(),
-
-    id: Long = 0L,
-): BaseEntity(id)
+    @OneToMany
+    @JoinColumn(name = "productId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    var product: MutableList<Product>? = ArrayList()
+): BaseEntity()

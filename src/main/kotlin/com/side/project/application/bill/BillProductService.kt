@@ -5,7 +5,7 @@ import com.side.project.domain.bill.Bill
 import com.side.project.domain.bill.BillProduct
 import com.side.project.domain.bill.BillProductRepository
 import com.side.project.domain.product.option.ProductDetailOptRepository
-import com.side.project.domain.product.option.ProductGrpOptRepository
+import com.side.project.domain.product.option.ProductGroupOptRepository
 import com.side.project.domain.product.option.getByIds
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class BillProductService(
     private val billProductRepository: BillProductRepository,
-    private val productGrpOptRepository: ProductGrpOptRepository,
+    private val productGroupOptRepository: ProductGroupOptRepository,
     private val productDetailOptRepository: ProductDetailOptRepository
 ) {
     @Transactional
     fun create(billProductRequest: BillProductRequest, bill: Bill): BillProduct {
-        val grpOpt = productGrpOptRepository.getByIds(billProductRequest.grpOptId)
+        val grpOpt = productGroupOptRepository.getByIds(billProductRequest.grpOptId)
         val detailOpt = productDetailOptRepository.getByIds(billProductRequest.detailOptId)
 
         return billProductRepository.save(

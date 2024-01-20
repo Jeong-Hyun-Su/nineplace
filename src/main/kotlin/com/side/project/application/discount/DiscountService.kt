@@ -12,6 +12,7 @@ import com.side.project.domain.discount.strategy.DiscountFactory
 import com.side.project.domain.order.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 import kotlin.math.min
 
 @Service
@@ -19,7 +20,7 @@ import kotlin.math.min
 class DiscountService(
     private val discountRepository: DiscountRepository,
 ) {
-    fun getById(id: Long): DiscountDto {
+    fun getById(id: UUID): DiscountDto {
         return discountRepository.getByIds(id)
                                  .let(DiscountMapper.INSTANCE::toDto)
     }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 @RequestMapping("/bills")
@@ -17,7 +18,7 @@ class BillController(
     private val billService: BillService
 ) {
     @GetMapping("/{id}")
-    fun billGet(@PathVariable id: Long): ApiResponse<BillDto> {
+    fun billGet(@PathVariable id: UUID): ApiResponse<BillDto> {
         val bill = billService.getById(id)
 
         return ApiResponse.ok(message = "Bill 조회 성공", data = bill)
@@ -31,7 +32,7 @@ class BillController(
     }
 
     @DeleteMapping("/{id}")
-    fun billDelete(@PathVariable id: Long): ApiResponse<Nothing> {
+    fun billDelete(@PathVariable id: UUID): ApiResponse<Nothing> {
         billService.delete(id)
 
         return ApiResponse.ok(message = "Bill 삭제 성공")

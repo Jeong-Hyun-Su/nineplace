@@ -1,12 +1,12 @@
 package com.side.project
 
 import com.side.project.domain.product.option.ProductDetailOpt
-import com.side.project.domain.product.option.ProductGrpOpt
+import com.side.project.domain.product.option.ProductGroupOpt
 
 fun createProductDetailOpt(
     name: String = "상세옵션 1",
     price: Long = 5000L,
-    grpOpt: ProductGrpOpt? = null,
+    grpOpt: ProductGroupOpt? = null,
 ): ProductDetailOpt {
     return ProductDetailOpt(
         name = name,

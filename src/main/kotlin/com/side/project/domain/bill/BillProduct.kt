@@ -2,7 +2,7 @@ package com.side.project.domain.bill
 
 import com.side.project.common.payload.BaseEntity
 import com.side.project.domain.product.option.ProductDetailOpt
-import com.side.project.domain.product.option.ProductGrpOpt
+import com.side.project.domain.product.option.ProductGroupOpt
 import jakarta.persistence.*
 
 @Entity
@@ -19,7 +19,7 @@ class BillProduct(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "grpOptId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var grpOpt: ProductGrpOpt,
+    var grpOpt: ProductGroupOpt,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "detailOptId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))

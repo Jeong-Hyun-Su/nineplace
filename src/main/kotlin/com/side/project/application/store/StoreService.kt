@@ -9,18 +9,19 @@ import com.side.project.domain.order.Order
 import com.side.project.domain.store.*
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Service
 class StoreService(
     private val storeRepository: StoreRepository,
     private val storeApplicationRepository: StoreApplicationRepository
 ){
-    fun getById(id: Long): StoreDto{
+    fun getById(id: UUID): StoreDto{
         return storeRepository.getByIds(id)
                               .let(StoreMapper.INSTANCE::toDto)
     }
 
-    fun getNoProductById(id: Long): StoreNoProductDto{
+    fun getNoProductById(id: UUID): StoreNoProductDto{
         return storeRepository.getByIds(id)
                               .let(StoreMapper.INSTANCE::toNotProductDto)
     }
@@ -32,7 +33,7 @@ class StoreService(
         )
     }
 
-    fun update(id: Long, storeRequest: StoreRequest) {
+    fun update(id: UUID, storeRequest: StoreRequest) {
         check(storeRepository.existsById(id)){ "존재하지 않는 스토어입니다. 수정할 수 없습니다." }
         val store = storeRepository.getByIds(id)
 

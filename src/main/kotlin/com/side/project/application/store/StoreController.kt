@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 @RequestMapping("/stores")
@@ -18,14 +19,14 @@ class StoreController(
     private val storeService: StoreService
 ) {
     @GetMapping("/{id}/all-info")
-    fun getStore(@PathVariable id: Long): ApiResponse<StoreDto> {
+    fun getStore(@PathVariable id: UUID): ApiResponse<StoreDto> {
         val store = storeService.getById(id)
 
         return ApiResponse.ok(message = "스토어 조회 성공", data = store)
     }
 
     @GetMapping("/{id}")
-    fun getStoreNoProduct(@PathVariable id: Long): ApiResponse<StoreNoProductDto> {
+    fun getStoreNoProduct(@PathVariable id: UUID): ApiResponse<StoreNoProductDto> {
         val store = storeService.getNoProductById(id)
 
         return ApiResponse.ok(message = "스토어 조회 성공", data = store)
@@ -39,7 +40,7 @@ class StoreController(
     }
 
     @PatchMapping("/{id}")
-    fun storeUpdate(@PathVariable id: Long, @RequestBody storeRequest: StoreRequest): ApiResponse<Nothing> {
+    fun storeUpdate(@PathVariable id: UUID, @RequestBody storeRequest: StoreRequest): ApiResponse<Nothing> {
         storeService.update(id, storeRequest)
 
         return ApiResponse.ok(message = "스토어 정보 업데이트 완료")

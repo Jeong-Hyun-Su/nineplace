@@ -17,6 +17,7 @@ import com.side.project.domain.product.getByIds
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true)
@@ -25,7 +26,7 @@ class OrderService (
     private val productRepository: ProductRepository,
     private val discountRepository: DiscountRepository
 ){
-    fun getById(orderId: Long): OrderDto {
+    fun getById(orderId: UUID): OrderDto {
         return orderRepository.getByIds(orderId)
                               .let(OrderMapper.INSTANCE::toDto)
     }
@@ -59,7 +60,6 @@ class OrderService (
                               this.product = product
                               this.status = OrderStatus.CLOSED
                               this.discount = discount
-                              this.store = product.store
                         }
         )
         // 할인정보 연관관계 설정
@@ -67,7 +67,7 @@ class OrderService (
     }
 
     @Transactional
-    fun update(id: Long, orderUpdateRequest: OrderUpdateRequest) {
+    fun update(id: UUID, orderUpdateRequest: OrderUpdateRequest) {
         check(orderRepository.existsById(id)){ "수정할 주문건이 없습니다." }
         val order = orderRepository.getByIds(id)
         // 공동구매 진행중이면, 수정 불가
@@ -93,7 +93,7 @@ class OrderService (
     }
 
     @Transactional
-    fun delete(id: Long) {
+    fun delete(id: UUID) {
         check(orderRepository.existsById(id)){ "삭제할 주문건이 없습니다." }
         val order = orderRepository.getByIds(id)
         // 공동구매 진행중이면, 수정 불가
@@ -107,7 +107,7 @@ class OrderService (
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    fun closedByMaxClient(orderId: Long) {
+    fun closedByMaxClient(orderId: UUID) {
         val order = orderRepository.getByIds(orderId)
         order.status = OrderStatus.CLOSED
     }
