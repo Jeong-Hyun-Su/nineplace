@@ -1,6 +1,6 @@
 package com.side.project.domain.client
 
-import com.side.project.common.payload.BaseEntity
+import com.side.project.global.common.payload.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table

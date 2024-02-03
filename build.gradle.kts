@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.spring") version "1.8.22"
     kotlin("plugin.jpa") version "1.8.22"
     kotlin("kapt") version "1.8.22"
+    idea
 }
 noArg {
     annotation("javax.persistence.Entity")
@@ -48,6 +49,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
 
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation("jakarta.persistence:jakarta.persistence-api")
+    annotationProcessor(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+
     compileOnly("org.projectlombok:lombok")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -59,6 +66,14 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     testImplementation("io.kotest:kotest-framework-datatest:5.6.2")
+}
+
+idea {
+    module {
+        val kaptMain = file("build/generated/source/kapt/main")
+        sourceDirs.add(kaptMain)
+        generatedSourceDirs.add(kaptMain)
+    }
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,8 +1,8 @@
 package com.side.project.domain.discount.strategy
 
-import com.side.project.common.code.status.DiscountStatus
-import com.side.project.common.code.type.DiscountType
-import com.side.project.domain.discount.Discount
+import com.side.project.domain.discount.entity.Discount
+import com.side.project.global.common.code.status.DiscountStatus
+import com.side.project.global.common.code.type.DiscountType
 
 class DiscountFactory {
     companion object{
