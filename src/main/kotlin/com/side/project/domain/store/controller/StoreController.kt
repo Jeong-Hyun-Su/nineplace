@@ -1,7 +1,6 @@
 package com.side.project.domain.store.controller
 
 import com.side.project.domain.store.controller.dto.StoreDto
-import com.side.project.domain.store.controller.dto.StoreNoProductDto
 import com.side.project.domain.store.controller.dto.StoreRequest
 import com.side.project.domain.store.service.StoreService
 import com.side.project.global.common.payload.ApiResponse
@@ -19,29 +18,22 @@ import java.util.UUID
 class StoreController(
     private val storeService: StoreService
 ) {
-    @GetMapping("/{id}/all-info")
+    @GetMapping("/{id}")
     fun getStore(@PathVariable id: UUID): ApiResponse<StoreDto> {
         val store = storeService.getById(id)
 
         return ApiResponse.ok(message = "스토어 조회 성공", data = store)
     }
 
-    @GetMapping("/{id}")
-    fun getStoreNoProduct(@PathVariable id: UUID): ApiResponse<StoreNoProductDto> {
-        val store = storeService.getNoProductById(id)
-
-        return ApiResponse.ok(message = "스토어 조회 성공", data = store)
-    }
-
     @PostMapping
-    fun storeCreate(@RequestBody storeRequest: StoreRequest): ApiResponse<Nothing> {
+    fun create(@RequestBody storeRequest: StoreRequest): ApiResponse<Nothing> {
         storeService.create(storeRequest)
 
         return ApiResponse.created(message = "스토어 생성 완료")
     }
 
     @PatchMapping("/{id}")
-    fun storeUpdate(@PathVariable id: UUID, @RequestBody storeRequest: StoreRequest): ApiResponse<Nothing> {
+    fun update(@PathVariable id: UUID, @RequestBody storeRequest: StoreRequest): ApiResponse<Nothing> {
         storeService.update(id, storeRequest)
 
         return ApiResponse.ok(message = "스토어 정보 업데이트 완료")

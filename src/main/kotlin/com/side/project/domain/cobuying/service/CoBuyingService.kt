@@ -63,25 +63,36 @@ class CoBuyingService (
     fun update(id: UUID, coBuyingUpdateRequest: CoBuyingUpdateRequest) {
         val coBuying = coBuyingRepository.getByIds(id)
         // 공동구매 진행중이면, 수정 불가
-        coBuying.checkStatusInProgress( "현재 공동구매가 진행중이므로, 수정할 수 없습니다." )
-        // 공동구매 업데이트
+        coBuying.isInProgress( "현재 공동구매가 진행중이므로, 수정할 수 없습니다." )
+        // 공동구매, 품목(CoBuyingLine) 업데이트
         coBuying.update(coBuyingUpdateRequest)
-        // 공동구매 품목 업데이트
         // 섹션할인 업데이트
         publisher.publishEvent(ByCoBuyingUpdateEvent(coBuyingId = id, discount = coBuyingUpdateRequest.discount))
     }
 
     @Transactional
-    fun delete(id: UUID) {
+    fun deleteById(id: UUID) {
         val coBuying = coBuyingRepository.getByIds(id)
+        delete(coBuying)
+    }
+
+    @Transactional
+    fun deleteByProductId(productId: UUID) {
+        val coBuyings = coBuyingRepository.findByProductId(productId)
+        coBuyings.forEach { delete(it) }
+    }
+
+    @Transactional
+    fun delete(coBuying: CoBuying) {
         // 공동구매 진행중이면, 수정 불가
-        coBuying.checkStatusInProgress( "현재 공동구매가 진행중이므로, 삭제할 수 없습니다." )
-        // 공동구매 삭제
+        coBuying.isInProgress( "현재 공동구매가 진행중이므로, 삭제할 수 없습니다." )
+        // 공동구매, 품목(CoBuyingLine) 삭제
         coBuyingRepository.delete(coBuying)
-        // 공동구매 품목 삭제
         // 공동구매 히스토리 생성
         publisher.publishEvent(ByCoBuyingCreateHistory(coBuying))
         // 섹션할인 삭제
-        publisher.publishEvent(ByCoBuyingDeleteEvent(coBuyingId = id))
+        publisher.publishEvent(ByCoBuyingDeleteEvent(coBuyingId = coBuying.id))
     }
+
+
 }

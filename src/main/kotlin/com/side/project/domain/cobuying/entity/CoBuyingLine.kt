@@ -44,4 +44,8 @@ class CoBuyingLine (
 
     @Column
     val detailOptId: UUID = detailOptId
+
+    fun fixQuantityLimit(quantityLimit: Long) {
+        this.quantityLimit = quantityLimit
+    }
 }

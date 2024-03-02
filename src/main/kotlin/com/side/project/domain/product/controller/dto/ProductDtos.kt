@@ -3,7 +3,7 @@ package com.side.project.domain.product.controller.dto
 import com.side.project.domain.category.controller.dto.CategoryNoDetailDto
 import com.side.project.domain.category.controller.dto.DetailCategoryDto
 import com.side.project.domain.cobuying.controller.dto.CoBuyingDto
-import com.side.project.domain.store.controller.dto.StoreNoProductDto
+import com.side.project.domain.store.controller.dto.StoreDto
 import com.side.project.global.common.code.status.ProductStatus
 import java.util.UUID
 
@@ -14,7 +14,7 @@ data class ProductDto (
     val imageUrl: String?,
     val content: String,
     val status: ProductStatus?,
-    val store: StoreNoProductDto?,
+    val store: StoreDto?,
     val groupOpt: List<ProductGroupOptDto>,
     val category: CategoryNoDetailDto?,
     val detailCategory: DetailCategoryDto?,

@@ -1,5 +1,6 @@
 package com.side.project.domain.discount.entity
 
+import com.side.project.domain.discount.controller.dto.DiscountSectionDto
 import com.side.project.domain.discount.controller.dto.DiscountSectionRequest
 import com.side.project.global.common.code.status.DiscountStatus
 import com.side.project.global.common.code.status.DiscountStatusConverter
@@ -67,10 +68,10 @@ class Discount (
     var coBuyingId: UUID? = coBuyingId
         protected set
     
-    fun updateSection(discountSectionRequest: DiscountSectionRequest) {
-        this.name = discountSectionRequest.name
-        this.userSection = discountSectionRequest.userSection
-        this.percent = discountSectionRequest.percent
+    fun updateSection(request: DiscountSectionDto) {
+        this.name = request.name
+        this.userSection = request.userSection
+        this.percent = request.percent
     }
 
     fun delete() {

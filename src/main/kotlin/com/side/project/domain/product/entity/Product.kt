@@ -81,7 +81,7 @@ class Product(
         this.categoryId = categoryId
     }
 
-    fun existCoBuying(): Boolean {
+    fun existsCoBuying(): Boolean {
         return this.coBuyingId != null
     }
 

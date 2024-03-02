@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-class DiscountByOrder(
+class DiscountByOrderListener(
     private val discountService: DiscountService
 ) {
     @TransactionalEventListener

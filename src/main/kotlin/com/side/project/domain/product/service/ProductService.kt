@@ -2,6 +2,7 @@ package com.side.project.domain.product.service
 
 import com.side.project.domain.category.repository.CategoryRepository
 import com.side.project.domain.cobuying.entity.CoBuying
+import com.side.project.domain.cobuying.event.ByProductDeleteEvent
 import com.side.project.domain.cobuying.repository.CoBuyingRepository
 import com.side.project.domain.product.controller.dto.ProductRequest
 import com.side.project.domain.product.controller.dto.ProductDto
@@ -31,11 +32,6 @@ class ProductService(
             .let(ProductMapper.INSTANCE::toDto)
     }
 
-    fun getNoStoreById(productId: UUID): ProductNoStoreDto {
-        return productRepository.getByIds(productId)
-            .let(ProductMapper.INSTANCE::toNoStoreDto)
-    }
-
     @Transactional
     fun create(request: ProductRequest) {
         check(storeRepository.existsById(request.storeId)){ "가게가 존재하지 않습니다." }
@@ -54,9 +50,9 @@ class ProductService(
 
         val product: Product = productRepository.getByIds(id)
         // 공동구매 등록된 건이 있으면, 조회
-        if(product.existCoBuying()) {
+        if(product.existsCoBuying()) {
             val coBuying: CoBuying = coBuyingRepository.getByIds(product.coBuyingId!!)
-            coBuying.checkStatusInProgress( "진행중인 공동구매건이 있어, 수정이 불가능합니다." )
+            coBuying.isInProgress( "진행중인 공동구매건이 있어, 수정이 불가능합니다." )
         }
         // 등록 건이 없거나, 공동구매 진행건이 없으면 상품 업데이트
         product.update(request)
@@ -68,12 +64,13 @@ class ProductService(
 
         val product: Product = productRepository.getByIds(id)
         // 공동구매 등록된 건이 있으면, 조회
-        if(product.existCoBuying()) {
+        if(product.existsCoBuying()) {
             val coBuying: CoBuying = coBuyingRepository.getByIds(product.coBuyingId!!)
-            coBuying.checkStatusInProgress( "진행중인 공동구매건이 있어, 수정이 불가능합니다." )
+            coBuying.isInProgress( "진행중인 공동구매건이 있어, 수정이 불가능합니다." )
         }
-        // 상품 - "삭제", 공동구매 - "삭제" 상태 변경
+        // 상품 삭제(상태값)
         product.delete()
-        //product.order.forEach { it.delete() }
+        // 공동구매 삭제(상태값) - 해당 상품으로 등록된 공동구매
+        publisher.publishEvent(ByProductDeleteEvent(productId = product.id))
     }
 }

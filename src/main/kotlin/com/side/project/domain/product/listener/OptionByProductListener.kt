@@ -7,7 +7,7 @@ import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-class ProductEventListener(
+class OptionByProductListener(
     private val productOptionService: ProductOptionService,
 ) {
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)

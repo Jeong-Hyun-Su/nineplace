@@ -5,13 +5,15 @@ import jakarta.persistence.*
 
 @Entity
 class DetailCategory (
+    name: String,
+    category: Category
+): BaseEntity() {
     @Column(nullable = false)
-    var name: String,
+    var name: String = name
+        protected set
 
     @ManyToOne
     @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var category: Category,
-
-    /*@OneToMany(mappedBy = "detailCategory")
-    var product: MutableList<Product>? = ArrayList(),*/
-): BaseEntity()
+    var category: Category = category
+        protected set
+}

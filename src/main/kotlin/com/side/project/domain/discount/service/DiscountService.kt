@@ -5,8 +5,7 @@ import com.side.project.domain.discount.controller.dto.CouponDiscountsDto
 import com.side.project.domain.discount.entity.Discount
 import com.side.project.domain.discount.mapper.DiscountMapper
 import com.side.project.domain.discount.repository.DiscountRepository
-import com.side.project.domain.cobuying.entity.CoBuying
-import com.side.project.domain.cobuying.entity.CoBuyingLine
+import com.side.project.domain.discount.controller.dto.DiscountSectionDto
 import com.side.project.domain.discount.controller.dto.DiscountSectionRequest
 import com.side.project.global.common.code.status.DiscountStatus
 import org.springframework.stereotype.Service
@@ -36,17 +35,17 @@ class DiscountService(
     }
 
     @Transactional
-    fun updateSectionByCoBuying(coBuyingId: UUID, discountSectionRequest: List<DiscountSectionRequest>) {
+    fun updateSectionByCoBuying(coBuyingId: UUID, discountSectionDtoList: List<DiscountSectionDto>) {
         val sectionDiscounts: List<Discount> = discountRepository.findSectionDiscountsByCoBuyingId(coBuyingId)
 
-        for(discountRequest in discountSectionRequest) {
+        for(discountSectionDto in discountSectionDtoList) {
             sectionDiscounts
-                .firstOrNull { it.id == discountRequest.id }
+                .firstOrNull { it.id == discountSectionDto.id }
                 ?.let{
-                   if(discountRequest.status == DiscountStatus.REMOVE) {
+                   if(discountSectionDto.status == DiscountStatus.REMOVE) {
                        discountRepository.delete(it)
                    } else {
-                       it.updateSection(discountRequest)
+                       it.updateSection(discountSectionDto)
                    }
                 }
         }

@@ -17,6 +17,14 @@ data class DiscountDto (
     val order: CoBuyingDto?,
 )
 
+data class DiscountSectionDto (
+    val id: UUID?,
+    val status: DiscountStatus?,
+    val name: String,
+    val percent: Long,
+    val userSection: Long,
+)
+
 data class DiscountSectionRequest (
     val id: UUID?,
     val status: DiscountStatus?,

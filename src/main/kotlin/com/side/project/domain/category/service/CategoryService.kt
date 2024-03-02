@@ -4,6 +4,8 @@ import com.side.project.domain.category.controller.dto.CategoryCreateDto
 import com.side.project.domain.category.controller.dto.CategoryDto
 import com.side.project.domain.category.controller.dto.DetailCategoryCreateDto
 import com.side.project.domain.category.controller.dto.DetailCategoryDto
+import com.side.project.domain.category.entity.Category
+import com.side.project.domain.category.entity.DetailCategory
 import com.side.project.domain.category.mapper.CategoryMapper
 import com.side.project.domain.category.repository.CategoryRepository
 import com.side.project.domain.category.repository.DetailCategoryRepository
@@ -30,17 +32,19 @@ class CategoryService (
     @Transactional
     fun createCategory(categoryCreateDto: CategoryCreateDto) {
         categoryRepository.save(
-            categoryCreateDto.let(CategoryMapper.INSTANCE::ofCategory)
+            Category(name = categoryCreateDto.name)
         )
     }
 
     @Transactional
-    fun createDetailCategory(detailCategoryCreateDto: DetailCategoryCreateDto) {
-        val category = categoryRepository.getByIds(detailCategoryCreateDto.categoryId)
+    fun createDetailCategory(request: DetailCategoryCreateDto) {
+        val category = categoryRepository.getByIds(request.categoryId)
 
         detailCategoryRepository.save(
-            detailCategoryCreateDto.let(CategoryMapper.INSTANCE::ofDetailCategory)
-                                   .apply { this.category = category }
+            DetailCategory(
+                name = request.name,
+                category = category
+            )
         )
     }
 

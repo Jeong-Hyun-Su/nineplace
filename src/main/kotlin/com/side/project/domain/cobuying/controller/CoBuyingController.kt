@@ -36,7 +36,7 @@ class CoBuyingController(
 
     @DeleteMapping("/{id}")
     fun deleteOrder(@PathVariable id: UUID): ApiResponse<Nothing> {
-        coBuyingService.delete(id)
+        coBuyingService.deleteById(id)
 
         return ApiResponse.ok(message = "공동구매 삭제 완료")
     }

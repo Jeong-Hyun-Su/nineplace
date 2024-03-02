@@ -23,36 +23,29 @@ class ProductController(
     private val productService: ProductService,
     private val productRepository: ProductRepository
 ) {
-    @GetMapping("/{id}/all-info")
-    fun getProductAllInfo(@PathVariable id: UUID): ApiResponse<ProductDto> {
+    @GetMapping("/{id}")
+    fun getProduct(@PathVariable id: UUID): ApiResponse<ProductDto> {
         val product = productService.getById(id)
 
         return ApiResponse.ok(data = product)
     }
 
-    @GetMapping("/{id}")
-    fun getProduct(@PathVariable id: UUID): ApiResponse<ProductNoStoreDto> {
-        val product = productService.getNoStoreById(id)
-
-        return ApiResponse.ok(data = product)
-    }
-
     @PostMapping
-    fun createProduct(@RequestBody request: ProductRequest): ApiResponse<ProductRequest>{
+    fun create(@RequestBody request: ProductRequest): ApiResponse<ProductRequest>{
         productService.create(request)
 
         return ApiResponse.ok(message = "상품 생성 완료")
     }
 
     @PatchMapping("/{id}")
-    fun updateProduct(@PathVariable id: UUID, @RequestBody request: ProductUpdateRequest): ApiResponse<Nothing> {
+    fun update(@PathVariable id: UUID, @RequestBody request: ProductUpdateRequest): ApiResponse<Nothing> {
         productService.update(id, request)
 
         return ApiResponse.ok(message = "상품 업데이트 완료")
     }
 
     @DeleteMapping("/{id}")
-    fun deleteProduct(@PathVariable id: UUID): ApiResponse<Nothing> {
+    fun delete(@PathVariable id: UUID): ApiResponse<Nothing> {
         productService.delete(id)
 
         return ApiResponse.ok(message = "상품 삭제 완료")

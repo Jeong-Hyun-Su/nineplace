@@ -1,6 +1,7 @@
 package com.side.project.domain.cobuying.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.side.project.domain.discount.controller.dto.DiscountSectionDto
 import com.side.project.domain.discount.controller.dto.DiscountSectionRequest
 import com.side.project.domain.product.controller.dto.ProductNoStoreDto
 import com.side.project.global.common.code.status.CoBuyingStatus
@@ -53,5 +54,6 @@ data class CoBuyingUpdateRequest (
     val userCapacity: Long,
     val status: CoBuyingStatus,
 
-    val discount: List<DiscountSectionRequest>
+    val coBuyingLines: List<CoBuyingLineDto>,
+    val discount: List<DiscountSectionDto>
 )

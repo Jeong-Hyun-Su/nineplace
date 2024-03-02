@@ -1,9 +1,9 @@
 package com.side.project.domain.discount.event
 
-import com.side.project.domain.discount.controller.dto.DiscountSectionRequest
+import com.side.project.domain.discount.controller.dto.DiscountSectionDto
 import java.util.UUID
 
-data class ByCoBuyingUpdateEvent (
+data class ByCoBuyingUpdateEvent(
     val coBuyingId: UUID,
-    val discount: List<DiscountSectionRequest>
+    val discount: List<DiscountSectionDto>
 )

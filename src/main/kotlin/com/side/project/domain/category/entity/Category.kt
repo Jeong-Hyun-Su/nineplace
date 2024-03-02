@@ -7,13 +7,19 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "Category")
 class Category (
+    name: String
+): BaseEntity() {
+
     @Column(nullable = false)
-    var name: String,
+    var name: String = name
+        protected set
 
     @OneToMany
     @JoinColumn(name = "categoryId", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    var product: MutableList<Product> = mutableListOf(),
+    protected val product: MutableList<Product> = mutableListOf()
+    val products: List<Product> get() = product.toList()
 
     @OneToMany(mappedBy = "category", cascade = [CascadeType.PERSIST, CascadeType.REMOVE], orphanRemoval = true)
-    var detailCategory: MutableList<DetailCategory> = mutableListOf(),
-): BaseEntity()
+    val detailCategory: MutableList<DetailCategory> = mutableListOf()
+    val detailCategories: List<DetailCategory> get() = detailCategory.toList()
+}

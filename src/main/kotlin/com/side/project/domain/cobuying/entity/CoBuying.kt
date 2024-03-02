@@ -89,31 +89,37 @@ class CoBuying (
         this.endTime = order.endTime
         this.userCapacity = order.userCapacity
         this.status = order.status
+
+        // 주문품목 최대수량 변경
+        for(coBuyingLineDto in order.coBuyingLines){
+            val coBuyingLine = this.coBuyingLine.firstOrNull { coBuyingLineDto.id == it.id }
+            coBuyingLine?.fixQuantityLimit(coBuyingLineDto.quantityLimit)
+        }
     }
 
     fun delete() {
         this.status = CoBuyingStatus.REMOVE
     }
 
-    fun checkStatusInProgress(message: String) {
+    fun isInProgress(message: String) {
         check(this.status != CoBuyingStatus.OPENED){ message }
     }
-    private fun checkStatusFinish() {
+    private fun isFinished() {
         check(status == CoBuyingStatus.OPENED){ "공동구매가 종료되었습니다." }
     }
-    private fun checkTimeWithin() {
+    private fun isTimeWithin() {
         check(LocalDateTime.now().isBefore(endTime)){ "공동구매가 종료되었습니다." }
     }
-    private fun checkUserCapacity() {
+    private fun isUserCapacityOvered() {
         check( userCount + 1 <= userCapacity ){
             status = CoBuyingStatus.CLOSED
             "인원이 꽉 찼습니다. 공동구매가 종료되었습니다."
         }
     }
-    fun checkPossibleOrder() {
-        checkStatusFinish()
-        checkTimeWithin()
-        checkUserCapacity()
+    fun isOrderAvailable() {
+        isFinished()
+        isTimeWithin()
+        isUserCapacityOvered()
     }
 
     companion object {

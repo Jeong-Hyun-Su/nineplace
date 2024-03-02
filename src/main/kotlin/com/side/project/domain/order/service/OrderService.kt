@@ -31,7 +31,7 @@ class OrderService(
     fun create(orderRequest: OrderRequest) {
         val coBuying = coBuyingRepository.getByIds(orderRequest.coBuyingId)
         // 주문 가능여부 체크 (진행중 && 종료시간 && 인원)
-        coBuying.checkPossibleOrder()
+        coBuying.isOrderAvailable()
         // 참여인원 증가 및 섹션할인 인원 충족 시, 활성화
         coBuying.increaseUserCount()
         // 섹션할인 구간 활성화/비활성화

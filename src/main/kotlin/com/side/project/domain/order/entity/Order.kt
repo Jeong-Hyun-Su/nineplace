@@ -36,12 +36,12 @@ class Order (
 
     fun addLineItems(lineItems: List<CoBuyingLineDto>) {
         for(lineItem in lineItems) {
-            this.price += lineItem.price * lineItem.quantity
+            this.price += lineItem.price * lineItem.quantityLimit
             this.orderLine.add(
                 OrderLine(
-                    coBuyingLineId = lineItem.coBuyingLineId,
+                    coBuyingLineId = lineItem.id,
                     price = lineItem.price,
-                    quantity = lineItem.quantity,
+                    quantity = lineItem.quantityLimit,
                     order = this
                 )
             )

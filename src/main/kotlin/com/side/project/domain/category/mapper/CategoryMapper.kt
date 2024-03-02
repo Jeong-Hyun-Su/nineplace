@@ -19,12 +19,6 @@ interface CategoryMapper {
     @Mappings
     fun toDetailCategoryDto(detailCategory: DetailCategory): DetailCategoryDto
 
-    @InheritInverseConfiguration
-    fun ofCategory(categoryCreateDto: CategoryCreateDto): Category
-
-    @InheritInverseConfiguration
-    fun ofDetailCategory(detailCategoryCreateDto: DetailCategoryCreateDto): DetailCategory
-
     companion object {
         val INSTANCE = Mappers.getMapper(CategoryMapper::class.java)
     }
